@@ -16,6 +16,13 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('canvas-container').appendChild(renderer.domElement);
 
+         
+    // Add fog to the scene
+    const fogColor = 0x000090; // Color de la niebla (negro)
+    const fogNear = 2.2; // Distancia cercana de inicio de la niebla
+    const fogFar = 5; //10 Distancia lejana de fin de la niebla
+    scene.fog = new THREE.Fog(fogColor, fogNear, fogFar);
+
     // Create the Klein surface geometry
     const geometry = new THREE.ParametricGeometry((u, v, target) => {
         const scale = 0.68;
