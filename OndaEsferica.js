@@ -18,14 +18,14 @@ function init() {
 
     // Create the Klein surface geometry
     const geometry = new THREE.ParametricGeometry((u, v, target) => {
-        const scale = 1.68;
+        const scale = 0.88; //1.85
 
         // Limit u and v to the range (0, 2*PI) y (-1,1)
         u = (u - 0.5) * 2 * 5;
         v = (v - 0.5) * 2 * 5;
 
-        const x = scale * u;
-        const y = scale * v;
+        const x = 1 * u;
+        const y = 1 * v;
         const z = scale * 2 * (Math.sin(Math.PI * Math.sqrt(x * x + y * y)));
 
         target.set(x, y, z);
