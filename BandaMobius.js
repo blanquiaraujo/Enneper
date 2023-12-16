@@ -53,8 +53,9 @@ function init() {
     const ambientLight = new THREE.AmbientLight(0xff0000, 1); // Color rojo y intensidad máxima
     scene.add(ambientLight);
 
-
-
+    // Modificar el estilo CSS para ocultar las barras de desplazamiento
+    document.body.style.margin = '0';
+    document.body.style.overflow = 'hidden';
 
 
     // Event listener for window resizing

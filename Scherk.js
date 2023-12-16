@@ -47,6 +47,10 @@ function init() {
     // Add the Scherk surface to the scene
     scene.add(scherkSurface);
 
+    // Modificar el estilo CSS para ocultar las barras de desplazamiento
+    document.body.style.margin = '0';
+    document.body.style.overflow = 'hidden';
+
     // Add event listener for window resizing
     window.addEventListener('resize', onWindowResize, false);
 
