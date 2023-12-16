@@ -15,6 +15,12 @@ function init() {
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('canvas-container').appendChild(renderer.domElement);
+ 
+    // Add fog to the scene
+    const fogColor = 0x000090; // Color de la niebla (negro)
+    const fogNear = 2.2; // Distancia cercana de inicio de la niebla
+    const fogFar = 5; //10 Distancia lejana de fin de la niebla
+    scene.fog = new THREE.Fog(fogColor, fogNear, fogFar);
 
     // Create the Mobius surface geometry
     const geometry = new THREE.ParametricGeometry((u, v, target) => {
@@ -37,6 +43,19 @@ function init() {
 
     // Add the Mobius surface to the scene
     scene.add(mobiusSurface);
+
+    // Add a point light below the torus
+    const pointLight = new THREE.PointLight(0xff0000, 1, 10);
+    pointLight.position.set(0, -0.2, 0); // Posición debajo del toro
+    scene.add(pointLight);
+
+    // Add ambient light to the scene (intensa y de color rojo)
+    const ambientLight = new THREE.AmbientLight(0xff0000, 1); // Color rojo y intensidad máxima
+    scene.add(ambientLight);
+
+
+
+
 
     // Event listener for window resizing
     window.addEventListener('resize', onWindowResize, false);
