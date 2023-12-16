@@ -119,6 +119,12 @@ body.open .menu {
   font-family: "Arial";
   text-decoration: none;
 }
+.menu > a:hover {
+  color: #4efe74;
+  font-size: 22px;
+  font-family: "Arial";
+  text-decoration: none;
+}
 
 body.open .menu > a {
   animation: appear 0.3s both;
