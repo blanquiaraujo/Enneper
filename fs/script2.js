@@ -26,14 +26,12 @@ document.addEventListener("DOMContentLoaded", function() {
         // Asigna la función al hacer clic en el botón
         pantallaCompletaBtn.addEventListener("click", activarPantallaCompleta);
 
-        // Función para activar el modo de pantalla completa al girar el dispositivo a horizontal
-        function verificarOrientacion() {
-            if (window.innerWidth > window.innerHeight) {
-                activarPantallaCompleta();
-            }
+        // Función para activar el modo de pantalla completa al tocar la pantalla
+        function verificarTocarPantalla() {
+            activarPantallaCompleta();
         }
 
-        // Asigna la función al evento de cambio de orientación
-        window.addEventListener("orientationchange", verificarOrientacion);
+        // Asigna la función al evento de tocar la pantalla
+        document.addEventListener("touchstart", verificarTocarPantalla);
     }
 });
