@@ -90,6 +90,16 @@ body.open .navbar-burger {
 .navbar-search::placeholder {
   color: #a7a7a7;
 }
+.opcion-desactivada {
+  pointer-events: none;
+  /* Otros estilos que desees aplicar cuando la opción esté desactivada */
+}
+
+.opcion-desactivada:hover {
+  /* Estilos adicionales para la opción cuando se hace hover (puedes dejarlo vacío si no quieres ningún efecto) */
+}
+
+
 
 .menu {
   z-index: 2;
@@ -112,6 +122,14 @@ body.open .menu {
   opacity: 1;
   visibility: visible;
 }
+.menu > inicio {
+  color: #f9f9f9;
+  font-size: 22px;
+  font-family: "Arial";
+  text-decoration: none;
+}
+
+
 
 .menu > a {
   color: #f9f9f9;
