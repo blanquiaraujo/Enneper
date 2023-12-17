@@ -24,7 +24,7 @@ function init() {
 
     // Create the Mobius surface geometry
     const geometry = new THREE.ParametricGeometry((u, v, target) => {
-        const scale = 2.2;
+        const scale = 1.6; //2.2
 
         // Limit u and v to the range (0, 2*PI) y (-1,1)
         u = (u - 0.0) * 2 * Math.PI;
