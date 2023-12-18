@@ -8,8 +8,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.mozFullScreenEnabled ||
         document.msFullscreenEnabled) {
 
-        pantallaCompletaBtn.style.display = "block"; // Muestra el botón solo si la API de pantalla completa es compatible
-
         // Función para activar el modo de pantalla completa
         function activarPantallaCompleta() {
             if (elemento.requestFullscreen) {
@@ -23,15 +21,45 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
-        // Asigna la función al hacer clic en el botón
-        pantallaCompletaBtn.addEventListener("click", activarPantallaCompleta);
-
-        // Función para activar el modo de pantalla completa al tocar la pantalla
-        function verificarTocarPantalla() {
-            activarPantallaCompleta();
+        // Función para ocultar el botón de pantalla completa
+        function ocultarBoton() {
+            pantallaCompletaBtn.style.display = "none";
         }
 
-        // Asigna la función al evento de tocar la pantalla
-        document.addEventListener("touchstart", verificarTocarPantalla);
+        // Función para mostrar el botón de pantalla completa
+        function mostrarBoton() {
+            pantallaCompletaBtn.style.display = "block";
+        }
+
+        // Asigna la función al hacer clic en el botón
+        pantallaCompletaBtn.addEventListener("click", function() {
+            activarPantallaCompleta();
+            ocultarBoton();
+        });
+
+        // Asigna la función para mostrar el botón al salir del modo de pantalla completa
+        document.addEventListener("fullscreenchange", function() {
+            if (!document.fullscreenElement) {
+                mostrarBoton();
+            }
+        });
+
+        document.addEventListener("webkitfullscreenchange", function() {
+            if (!document.webkitFullscreenElement) {
+                mostrarBoton();
+            }
+        });
+
+        document.addEventListener("mozfullscreenchange", function() {
+            if (!document.mozFullScreenElement) {
+                mostrarBoton();
+            }
+        });
+
+        document.addEventListener("MSFullscreenChange", function() {
+            if (!document.msFullscreenElement) {
+                mostrarBoton();
+            }
+        });
     }
 });
