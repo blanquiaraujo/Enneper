@@ -26,7 +26,7 @@ function init() {
 
     // Create the Enneper surface geometry
     const geometry = new THREE.ParametricGeometry((u, v, target) => {
-        const scale = 0.6;
+        const scale = 0.4;
 
         // Limit u and v to the range (-2, 2)
         u = (u - 0.5) * 4;
