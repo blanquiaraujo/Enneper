@@ -15,12 +15,17 @@
   </head>
   <body>
     <div class="background"></div>
-    <nav class="navbar">
-      <img class="navbar-logo" src="./assets/logo.png" /> 
-      <input type="text" placeholder="Clic aí ----->" class="navbar-search" readonly />
+    <nav class="navbar"> 
+      <input type="text" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;<----- Clic aí " class="navbar-search" readonly />
+      <img class="navbar-logo" src="./assets/logo.png" />
     </nav>
     <button class="navbar-burger" onclick="toggleMenu()"></button>
-    <nav class="menu">
+    
+    <div class="menu">
+      <a href="#"> &nbsp;</a>
+      <a href="#"> &nbsp;</a>
+      <a href="#"> &nbsp;</a>
+      <a href="#"> &nbsp;</a>
       <a href="#" class="opcion-desactivada">Selecciona unha:</a>
       <a href="ToroBoy.html" style="animation-delay: 0.1s">Toro de Boy</a>
       <a href="ToroClifford.html" style="animation-delay: 0.2s">Toro de Clifford</a>
@@ -30,7 +35,8 @@
       <a href="BotellaKlein.html" style="animation-delay: 0.6s">Botella de Klein</a>
       <a href="BandaMobius.html" style="animation-delay: 0.7s">Banda de Mobius</a>
 
-    </nav>
+    </div>
+    
     <script type="text/javascript">
       const toggleMenu = () => {
         document.body.classList.toggle("open");

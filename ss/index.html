@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<style>
+body {
+  font-size: 18px;
+}
+#homepage, #sobremi, #contacto {
+  display: none;
+}
+</style>
+<script type="text/javascript">
+function openFullscreen() {
+  var elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+var lap;
+function test(){
+  clearTimeout(lap);
+  document.getElementById('scrsaver').style.display='none';
+  lap=setTimeout("document.getElementById('scrsaver').style.display='block'", 4000);
+}
+document.onmousemove=test;
+document.onmousedown=test;
+document.onkeydown=test;
+</script>
+</head>
+<body onload="openFullscreen();">
+<div id="homepage">Contenido HOMEPAGE</div>
+<div id="sobremi">Contenido Sobre Mi</div>
+<div id="contacto">Contenido Contacto</div>
+<div id="scrsaver" style="font:normal 4em/2em sans-serif">
+<marquee direction="left">S A L V A P A N T A L L A S - Web 2.0</marquee>
+<marquee direction="right">S A L V A P A N T A L L A S - Web 2.0</marquee>
+</div>
+</body>
+</html>
