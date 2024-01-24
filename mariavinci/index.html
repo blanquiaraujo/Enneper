@@ -1,12 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Web de Maria Vinci</title>
   </head>
   <body>
-    <div id="canvas-container"></div>
-    <img src="1.png" alt="MariaJose" title="MariaJose">
+    <div class="counter">
+      <div class="nums">
+        <span class="in">3</span>
+        <span>2</span>
+        <span>1</span>
+        <span>0</span>
+      </div>
+      <h4>Preparada</h4>
+    </div>
 
+    <div class="final">
+      <h1>Adiante!</h1>
+      <button id="replay">
+        <span>Entra</span>
+      </button>
+    </div>
+    
+
+    <script>
+      // Selecciona el botón por su identificador único
+      var button = document.getElementById("replay");
+  
+      // Agrega un evento de clic al botón que redirige a la página "index2.html"
+      button.addEventListener("click", function(){
+        window.location.href = "index2.html";
+      });
+    </script>
+  
+  
+    <script src="script.js"></script>
   </body>
 </html>
