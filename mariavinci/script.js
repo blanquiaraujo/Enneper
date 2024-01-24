@@ -37,5 +37,5 @@ function runAnimation() {
 replay.addEventListener('click', () => {
   resetDOM()
   window.location.href = "./entontuscartitas/index.html";
-  runAnimation()
+  // runAnimation()
 })
