@@ -101,7 +101,6 @@ body.open .navbar-burger {
 }
 
 
-
 .menu {
 
   z-index: 2;
@@ -109,15 +108,15 @@ body.open .navbar-burger {
   left: 0;
 
   display: flex;
-  flex-direction: column;
-  padding-top:  30%;
+  flex-direction: row;
+  padding-top:  1%;
   padding-bottom: 10%;
 
   align-items: center;
   justify-content: center;
   gap: 12px;
   width: 100%;
-  height: 80%;  
+  height: 100%;  
   background: rgba(0, 0, 0, 0.8);
   opacity: 0;
   visibility: hidden;
