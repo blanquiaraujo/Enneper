@@ -108,7 +108,7 @@ body.open .navbar-burger {
   left: 0;
 
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding-top:  1%;
   padding-bottom: 10%;
 
