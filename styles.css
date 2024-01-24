@@ -110,18 +110,21 @@ body.open .navbar-burger {
 
   display: flex;
   flex-direction: column;
+  padding-top:  10%;
+  padding-bottom: 10%;
+
   align-items: center;
   justify-content: center;
   gap: 12px;
   width: 100%;
-  height: 100%;
+  height: 80%;  
   background: rgba(0, 0, 0, 0.8);
   opacity: 0;
   visibility: hidden;
   transition: 0.5s;
   overflow-y: scroll;
-  max-height: 100%; /* Por ejemplo, limitar a un 80% de la altura visible */
-
+ /* max-height: 140%; /* Por ejemplo, limitar a un 80% de la altura visible */
+*/
 }
 
 body.open .menu {
