@@ -16,7 +16,7 @@ body {
 
 .container {
   display: flex;
-  width: 90vw;
+  width: 70vw;/* 90vw */
 }
 
 .panel {
@@ -54,7 +54,7 @@ body {
 
 @media (max-width: 480px) {
   .container {
-    width: 100vw;
+    width: 70vw; /* 100vw*/
   }
 
   .panel:nth-of-type(4),
