@@ -16,14 +16,14 @@ body {
 
 .container {
   display: flex;
-  width: 70vw;/* 90vw */
+  width: 90vw;/* 90vw */
 }
 
 .panel {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 80vh;
+  height: 90vh;
   border-radius: 50px;
   color: #fff;
   cursor: pointer;
@@ -54,11 +54,11 @@ body {
 
 @media (max-width: 480px) {
   .container {
-    width: 70vw; /* 100vw*/
+    width: 90vw; /* 100vw*/
   }
 
-  .panel:nth-of-type(4),
+ /*.panel:nth-of-type(4),
   .panel:nth-of-type(5) {
     display: none;
-  }
+  }*/
 }
