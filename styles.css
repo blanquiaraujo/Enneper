@@ -122,7 +122,7 @@ body.open .navbar-burger {
   visibility: hidden;
   transition: 0.5s;
   overflow-y: scroll;
-  max-height: 250%; /* Por ejemplo, limitar a un 80% de la altura visible */
+  max-height: 300%; /* Por ejemplo, limitar a un 80% de la altura visible */
 */
 }
 
