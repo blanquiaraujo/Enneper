@@ -53,7 +53,7 @@
         // Carga la textura
         var textureLoader2 = new THREE.TextureLoader();
 
-        var texture2 = textureLoader2.load('https://enneper.vercel.app/mariavinci/entontuscartitas/0.png');
+        var texture2 = textureLoader2.load('https://enneper.vercel.app/mariavinci/entontuscartitas/1.png');
 
         // Usa MeshStandardMaterial con la textura cargada
         var material2 = new THREE.MeshStandardMaterial({ map: texture2 });
@@ -68,7 +68,7 @@
 
         // SPHERE con textura
         var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-        var sphereTexture = new THREE.TextureLoader().load('https://enneper.vercel.app/mariavinci/entontuscartitas/1.png');
+        var sphereTexture = new THREE.TextureLoader().load('https://enneper.vercel.app/mariavinci/entontuscartitas/0.png');
         var sphereMaterial = new THREE.MeshStandardMaterial({ map: sphereTexture });
         var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
         sphere.castShadow = true;
