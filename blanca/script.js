@@ -28,7 +28,7 @@ function createRedirectButton() {
   redirectButton.classList.add('redirect-button');
   redirectButton.addEventListener('click', function () {
     alert("A ver se che gusta a tua nova web!");
-    window.location.href = 'https://enneper.vercel.app/';
+    window.location.href = 'https://enneper.vercel.app/blanca/fotis/';
   });
 
   body.appendChild(redirectButton);
