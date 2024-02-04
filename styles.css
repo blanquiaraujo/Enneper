@@ -34,7 +34,7 @@ body.open .background {
 }
 
 .navbar {
-  z-index: 1;
+  z-index: 3;
   top: 0px;
   left: 0;
   display: flex;
@@ -45,7 +45,6 @@ body.open .background {
   padding-left: 20px;
   padding-right: 72px;
   background: #19191c;
-  color: #f9f9f9;
 }
 
 .navbar > button {
@@ -58,7 +57,7 @@ body.open .background {
 }
 
 .navbar-burger {
-  z-index: 3;
+  z-index: 4;
   top: 0;
   left: 0;
   display: grid;
@@ -103,15 +102,18 @@ body.open .navbar-burger {
 
 .menu {
 
-  z-index: 2;
-  top: 70px;
-  left: 0;
-
-  display: flex;
+  z-index: 2;/*2*/
+  margin: -10px;
+  margin-right: -10;
+  padding: 0px;
+  top: 72px;
+  left: 0px;
+  position: relative; /* LA CHICHA ESTABA EIQUI */
+  display: flex; 
   flex-direction: column;
-  padding-top:  50%;
-  padding-bottom: 10%;
-
+  /*padding-top:  0px;
+  padding-bottom: 10px;*/
+  border: 0px;
   align-items: center;
   justify-content: center;
   gap: 12px;
@@ -122,7 +124,7 @@ body.open .navbar-burger {
   visibility: hidden;
   transition: 0.5s;
   overflow-y: scroll;
-  max-height: 300%; /* Por ejemplo, limitar a un 80% de la altura visible */
+  max-height: 100%; /* Por ejemplo, limitar a un 80% de la altura visible */
 */
 }
 

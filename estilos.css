@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#pantallaCompletaBtn {
+    position: fixed;
+    z-index: 5;
+    top: 90px;
+    right: 50px;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}

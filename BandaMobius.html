@@ -10,13 +10,17 @@
         <link rel="icon" href="./favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
         <!-- Otras etiquetas head... -->
-    <link href="./stylesproba.css" rel="stylesheet" />
+    <link href="./stylesfs.css" rel="stylesheet">
+    <link href="./estilos.css" rel="stylesheet" >
+    <script src="./script2.js"></script>
   </head>
   <body>
+    
     <div class="background"></div>
     <nav class="navbar">
       <input type="text" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<----- Clic aí " class="navbar-search" readonly />
       <img class="navbar-logo" src="./assets/logo.png" />
+
     </nav>
     <button class="navbar-burger" onclick="toggleMenu()"></button> 
     <nav class="menu">
@@ -35,9 +39,12 @@
         document.body.classList.toggle("open");
       };
     </script>
+       <button id="pantallaCompletaBtn">FS</button>
+ 
     <div id="canvas-container">
-    <script src="Three.js"></script>
-    <script src="BandaMobius.js"></script>
+       
+       <script src="Three.js"></script>
+       <script src="BandaMobius.js"></script>
     </div>
 </body>
 </html>

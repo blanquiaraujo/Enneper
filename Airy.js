@@ -22,7 +22,7 @@ function init() {
     const fogFar = 5;
     scene.fog = new THREE.Fog(fogColor, fogNear, fogFar);
 
-    // Create the Klein surface geometry
+    // Create the Airy surface geometry
     const geometry = new THREE.ParametricGeometry((u, v, target) => {
         const scale = 1.68;
 

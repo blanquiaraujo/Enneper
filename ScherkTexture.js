@@ -1,6 +1,7 @@
 let scene, camera, renderer;
-let enneperSurface;
-let isAnimationPaused = false; // Variable para controlar el estado de la animación
+let scherkSurface;
+let isAnimationPaused = false;
+let animationId;
 
 // Initialize Three.js scene
 function init() {
@@ -15,49 +16,64 @@ function init() {
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-         
+/*
     // Add fog to the scene
     const fogColor = 0x000090; // Color de la niebla (negro)
     const fogNear = 2.2; // Distancia cercana de inicio de la niebla
     const fogFar = 5; //10 Distancia lejana de fin de la niebla
     scene.fog = new THREE.Fog(fogColor, fogNear, fogFar);
+*/
+    // Create a texture loader
+    const textureLoader = new THREE.TextureLoader();
+
+    // Load the texture
+    const texture = textureLoader.load('https://enneper.vercel.app/elenaabal/elenaabal.jpg');
+
+    // Create material with the loaded texture
+    const material = new THREE.MeshBasicMaterial({ map: texture });
 
 
-    // Create the Enneper surface geometry
+    // Create the Clifford Torus geometry
     const geometry = new THREE.ParametricGeometry((u, v, target) => {
-        const scale = 0.014;
+        const scale = 1.36;
 
-        // Limit u and v to the range (-2, 2)
-        u = (u - 0.5) * 4;
-        v = (v - 0.5) * 4;
+        const a = 1.0;
+        const b = 0.5;
 
-        const x = 1 * (u - (u * u * u) / 3 + u * v * v);
-        const y = 1 * (v - (v * v * v) / 3 + v * u * u);
-        const z = scale * (u * u - v * v);
+        u = (u - 0.0) * 2 * Math.PI;
+        v = (v - 0.0) * 2 * Math.PI;
+
+        const x = scale * (a + b * Math.cos(v)) * Math.cos(u);
+        const y = scale * (a + b * Math.cos(v)) * Math.sin(u);
+        const z = scale * (b * Math.sin(v) +
+            2 * a * Math.sin(0.5 * v) * Math.sin(0.5 * v));
         target.set(x, y, z);
     }, 100, 100);
 
-    // Create material and mesh
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-    enneperSurface = new THREE.Mesh(geometry, material);
 
-    // Add the Enneper surface to the scene
-    scene.add(enneperSurface);
+    // Create mesh with the new material
+    scherkSurface = new THREE.Mesh(geometry, material);
 
+    // Add the Scherk surface to the scene
+    scene.add(scherkSurface);
 
     // Modificar el estilo CSS para ocultar las barras de desplazamiento
     document.body.style.margin = '0';
     document.body.style.overflow = 'hidden';
 
-
-
-
     // Add event listener for window resizing
     window.addEventListener('resize', onWindowResize, false);
 
-    // Add event listener for clicking to pause/resume the animation
-    renderer.domElement.addEventListener('click', toggleAnimation);
+    // Add a click event listener to the renderer's DOM element
+    renderer.domElement.addEventListener('click', () => {
+        // Toggle animation pause and resume
+        if (isAnimationPaused) {
+            animate();
+        } else {
+            cancelAnimationFrame(animationId); // Pause the animation
+        }
+        isAnimationPaused = !isAnimationPaused;
+    });
 }
 
 // Handle window resize
@@ -71,28 +87,15 @@ function onWindowResize() {
     renderer.setSize(newWidth, newHeight);
 }
 
-// Toggle animation pause/resume on click
-function toggleAnimation() {
-    isAnimationPaused = !isAnimationPaused;
-
-    if (isAnimationPaused) {
-        cancelAnimationFrame(animationId);
-    } else {
-        animate();
-    }
-}
-
 // Animation loop
-let animationId;
-
 function animate() {
     animationId = requestAnimationFrame(animate);
 
-    if (!isAnimationPaused) {
-        enneperSurface.rotation.x += 0.01;
-        enneperSurface.rotation.y += 0.01;
-        renderer.render(scene, camera);
-    }
+    // Rotate the Scherk surface
+    scherkSurface.rotation.x += 0.01;
+    scherkSurface.rotation.y += 0.01;
+
+    renderer.render(scene, camera);
 }
 
 // Initialize and start the animation
