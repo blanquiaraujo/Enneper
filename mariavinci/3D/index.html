@@ -17,6 +17,18 @@
 </head>
 
 <body>
+    <select id="materialSelect">
+        <option value="1">MeshBasicMaterial</option>
+        <option value="2">MeshDepthMaterial</option>
+        <option value="3">MeshLambertMaterial</option>
+        <option value="4">MeshNormalMaterial</option>
+        <option value="5">MeshPhongMaterial</option>
+        <option value="6">MeshStandardMaterial</option>
+        <option value="7">MeshToonMaterial</option>
+        <option value="8">PointsMaterial</option>
+        <option value="9">ShaderMaterial</option>
+    </select>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.js"></script>
     <script>
         var scene = new THREE.Scene();
@@ -32,7 +44,7 @@
         var material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
         var textureLoader = new THREE.TextureLoader();
         
-        var texture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/0.png');
+        var texture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/9.png');
 
         var cubeMaterial = new THREE.MeshStandardMaterial({ map: texture });
 
@@ -46,7 +58,7 @@
         var material2 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
         var textureLoader2 = new THREE.TextureLoader();
         
-        var texture2 = textureLoader2.load('https://enneper.vercel.app/mariavinci/entontuscartitas/5.png');
+        var texture2 = textureLoader2.load('https://enneper.vercel.app/mariavinci/entontuscartitas/9.png');
 
         var cubeMaterial2 = new THREE.MeshStandardMaterial({ map: texture2 });
 
@@ -65,7 +77,55 @@
         var planeGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
         // Load texture
         var texture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/9.png');
-        var planeMaterial = new THREE.MeshStandardMaterial({ map: texture });
+
+        // Function to change plane material based on selected option
+        function changeMaterial() {
+            var select = document.getElementById("materialSelect");
+            var selectedValue = select.options[select.selectedIndex].value;
+
+            // Set material based on selected value
+            switch (selectedValue) {
+                case "1":
+                    plane.material = new THREE.MeshBasicMaterial({ map: texture });
+                    break;
+                case "2":
+                    plane.material = new THREE.MeshDepthMaterial({ 
+                        depthPacking: THREE.BasicDepthPacking /*THREE.RGBADepthPacking*/ , // Almacena la profundidad en los canales RGBA
+                        alphaTest: 0.9, // Umbral de transparencia (valor medio)
+                        map: texture 
+                    });
+                    break;
+                case "3":
+                    plane.material = new THREE.MeshLambertMaterial({ /*color: 0xffffff,*/ map: texture });
+                    break;
+                case "4":
+                    plane.material = new THREE.MeshNormalMaterial({ wireframe: true , color: 0x00ff00 });
+                    break;
+                case "5":
+                    plane.material = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "6":
+                    plane.material = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "7":
+                    plane.material = new THREE.MeshToonMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "8":
+                    plane.material = new THREE.PointsMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "9":
+                    plane.material = new THREE.ShaderMaterial({ color: 0xffffff, map: texture, size: 2.5 });
+                    break;
+                default:
+                    plane.material = new THREE.MeshStandardMaterial({ color: 0xffffff, size: 2.5 });
+                    break;
+            }
+        }
+
+        // Call changeMaterial function when the selection changes
+        document.getElementById("materialSelect").addEventListener("change", changeMaterial);
+
+        var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.receiveShadow = true;
         plane.position.set(0, 0, 0);
