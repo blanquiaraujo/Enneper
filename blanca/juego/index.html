@@ -90,8 +90,8 @@
         //  import * as THREE from './three.module.js';
         import { OrbitControls }  from './orbitcontrols.js';
   
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var scene = new THREE.Scene();          //75
+        var camera = new THREE.PerspectiveCamera(85, window.innerWidth / window.innerHeight, 0.1, 1000);
 
         var renderer = new THREE.WebGLRenderer({ alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -128,7 +128,9 @@
 
         // LIGHT
         var light = new THREE.DirectionalLight(0xffffff, 1, 10);
-        light.position.set(-1, 1, 1);
+       
+                         // (-1,1,1)
+        light.position.set(0, 1, 1);
         light.castShadow = true;
         scene.add(light);
 
