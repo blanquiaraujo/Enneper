@@ -30,18 +30,25 @@
       }
         /* Estilo para el texto */
       #textoAyuda {
+        position: absolute; /* Establece la posición absoluta */
+        right: 0; /* Alinea la div a la derecha */
+        top: 0;
         width: 50px;
         color: white; /* Color del texto por defecto */
         cursor: pointer; /* Cambia el cursor a una mano cuando se pasa por encima */
+      }
+      .divAbsolute {
+        position: absolute;
+        top: 22px;
       }
     </style>
 
 </head>
 <body>
-    <div id="textoAyuda" width= 100px>
+    <div id="textoAyuda">
         Axuda
     </div>
-    <div top: 0px>
+    <div class="divAbsolute">
         <select id="materialSelect">
             <option value="0">--Elixe material--</option>
             <option value="1">MeshBasicMaterial</option>
