@@ -29,8 +29,17 @@
         <option value="9">ShaderMaterial</option>
     </select>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.js"></script>
-    <script>
+    <select id="animationSelect">
+        <option value="1">Animación automática</option>
+        <option value="2">Movimiento interactivo</option>
+    </select>
+
+    <script src="Three.js"></script>
+    <script    type="module">
+        import * as THREE from './three.module.js';
+      // import { OrbitControls } from './orbitcontrols.js';
+
+        import { OrbitControls } from './orbitcontrols.js';
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -78,6 +87,13 @@
         // Load texture
         var texture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/9.png');
 
+        // Activa el movimiento con el raton
+/*
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.1;
+
+*/           
         // Function to change plane material based on selected option
         function changeMaterial() {
             var select = document.getElementById("materialSelect");
@@ -125,6 +141,51 @@
         // Call changeMaterial function when the selection changes
         document.getElementById("materialSelect").addEventListener("change", changeMaterial);
 
+        // Function to change render function based on selected option
+        function changeAnimation() {
+            var select = document.getElementById("animationSelect");
+            var selectedValue = select.options[select.selectedIndex].value;
+
+            // Change render function based on selected value
+            switch (selectedValue) {
+                case "1":
+                    //alert("hola");
+                    const imprimeHola = function() {
+                        alert("Hola bertikis");
+                    };
+              /*      render = function() {
+              
+                        cube.rotation.x += 0.01;
+                        cube.rotation.y += 0.01;
+                        cube2.rotation.x += 0.015;
+                        cube2.rotation.y += 0.01;
+                        plane.rotation.z += 0.01;
+                        light.rotation.y -= 0.01;
+                
+                        requestAnimationFrame(render);
+                        renderer.render(scene, camera);
+                    };
+                */
+                    break;
+                case "2":
+                    
+                    render = function() {
+                        cube2.rotation.x += 0.015;
+                        cube2.rotation.y += 0.01;
+                        plane.rotation.z += 0.01;
+                        light.rotation.y -= 0.01;
+                        requestAnimationFrame(render);
+                        renderer.render(scene, camera);
+                    };
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Call changeAnimation function when the selection changes
+        document.getElementById("animationSelect").addEventListener("change", changeAnimation);
+
         var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.receiveShadow = true;
@@ -135,17 +196,12 @@
         camera.position.y = -3;
         camera.rotation.x = .5;
 
-        function renderiza() {
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            cube2.rotation.x += 0.015;
-            cube2.rotation.y += 0.01;
-            plane.rotation.z += 0.01;
-            light.rotation.y -= 0.01;
-            requestAnimationFrame(renderiza);
-            renderer.render(scene, camera);
-        }
-        renderiza();
+        // Initial call to changeAnimation function to set initial render function
+        changeAnimation();
+
+        // Initial render call
+        // imprimeHola();
+        render();
     </script>
 </body>
 

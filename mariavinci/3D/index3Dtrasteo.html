@@ -30,7 +30,10 @@
     </select>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.js"></script>
-    <script>
+    <script type="module">
+        //  import * as THREE from './three.module.js';
+          import { OrbitControls }  from './orbitcontrols.js';
+  
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -134,6 +137,10 @@
         camera.position.z = 5;
         camera.position.y = -3;
         camera.rotation.x = .5;
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.1;
 
         function renderiza() {
             cube.rotation.x += 0.01;

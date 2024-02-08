@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Juego 3D de Maria Vinci</title>
+    <meta charset=utf-8>
+    <title>Web3D de Maria Vinci</title>
     <style>
         body {
             margin: 0;
@@ -16,11 +17,23 @@
 </head>
 
 <body>
-<!--    <script src="./Three.js"></script> -->
-    <script type="module">
-        import * as THREE from './three.module.js';
-        import { OrbitControls } from './orbitcontrols.js';
+    <select id="materialSelect">
+        <option value="1">MeshBasicMaterial</option>
+        <option value="2">MeshDepthMaterial</option>
+        <option value="3">MeshLambertMaterial</option>
+        <option value="4">MeshNormalMaterial</option>
+        <option value="5">MeshPhongMaterial</option>
+        <option value="6">MeshStandardMaterial</option>
+        <option value="7">MeshToonMaterial</option>
+        <option value="8">PointsMaterial</option>
+        <option value="9">ShaderMaterial</option>
+    </select>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.js"></script>
+    <script type="module">
+        //  import * as THREE from './three.module.js';
+          import { OrbitControls }  from './orbitcontrols.js';
+  
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -29,89 +42,115 @@
         renderer.shadowMap.enabled = true;
         document.body.appendChild(renderer.domElement);
 
-        // CUBE con textura
-        var geometry = new THREE.BoxGeometry(1, 1, 1);
-
-        // Carga la textura
+        // CUBE
+        var geometry = new THREE.BoxGeometry(2.5, 2.5, 2.5);
+        var material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
         var textureLoader = new THREE.TextureLoader();
+        
+        var texture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/9.png');
 
-        var texture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/8.png');
+        var cubeMaterial = new THREE.MeshStandardMaterial({ map: texture });
 
-        // Usa MeshStandardMaterial con la textura cargada
-        var material = new THREE.MeshStandardMaterial({ map: texture });
-//        var material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-     
-        var cube = new THREE.Mesh(geometry, material);
+        var cube = new THREE.Mesh(geometry, cubeMaterial);
         cube.castShadow = true;
-        cube.position.set(1, 2, 1);
+        cube.position.set(-1, -1, 1);
         scene.add(cube);
 
-
-        // CUBE2 con textura
-        var geometry2 = new THREE.BoxGeometry(2, 2, 2);
-
-        // Carga la textura
+        // CUBE 2
+        var geometry2 = new THREE.BoxGeometry(1.5, 2.5, 1.5);
+        var material2 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
         var textureLoader2 = new THREE.TextureLoader();
+        
+        var texture2 = textureLoader2.load('https://enneper.vercel.app/mariavinci/entontuscartitas/9.png');
 
-        var texture2 = textureLoader2.load('https://enneper.vercel.app/mariavinci/entontuscartitas/1.png');
+        var cubeMaterial2 = new THREE.MeshStandardMaterial({ map: texture2 });
 
-        // Usa MeshStandardMaterial con la textura cargada
-        var material2 = new THREE.MeshStandardMaterial({ map: texture2 });
-//        var material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-     
-        var cube2 = new THREE.Mesh(geometry2, material2);
+        var cube2 = new THREE.Mesh(geometry2, cubeMaterial2);
         cube2.castShadow = true;
-        cube2.position.set(2, 4, 2);
+        cube2.position.set(1, 5, 1);
         scene.add(cube2);
 
-
-
-        // SPHERE con textura
-        var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-        var sphereTexture = new THREE.TextureLoader().load('https://enneper.vercel.app/mariavinci/entontuscartitas/0.png');
-        var sphereMaterial = new THREE.MeshStandardMaterial({ map: sphereTexture });
-        var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        sphere.castShadow = true;
-        sphere.position.set(-2, -2, 3);
-        scene.add(sphere);
-
-        // LIGHT 2
-        var light2 = new THREE.DirectionalLight(0xffffff, 1, 10);
-        light2.position.set(-1, 1, 1);
-        light2.castShadow = true;
-        scene.add(light2);
-
-        // Lights
-        const light = new THREE.DirectionalLight(0xffffff, 1, 100);
-        light.position.set(0, 1, 1);
+        // LIGHT
+        var light = new THREE.DirectionalLight(0xffffff, 1, 10);
+        light.position.set(-1, 1, 1);
         light.castShadow = true;
         scene.add(light);
 
         // PLANE
-        var planeTexture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/5.png');
-
         var planeGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
-        var planeMaterial = new THREE.MeshStandardMaterial({ map: planeTexture });
-    
-      //  var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        // Load texture
+        var texture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/9.png');
+
+        // Function to change plane material based on selected option
+        function changeMaterial() {
+            var select = document.getElementById("materialSelect");
+            var selectedValue = select.options[select.selectedIndex].value;
+
+            // Set material based on selected value
+            switch (selectedValue) {
+                case "1":
+                    plane.material = new THREE.MeshBasicMaterial({ map: texture });
+                    break;
+                case "2":
+                    plane.material = new THREE.MeshDepthMaterial({ 
+                        depthPacking: THREE.BasicDepthPacking /*THREE.RGBADepthPacking*/ , // Almacena la profundidad en los canales RGBA
+                        alphaTest: 0.9, // Umbral de transparencia (valor medio)
+                        map: texture 
+                    });
+                    break;
+                case "3":
+                    plane.material = new THREE.MeshLambertMaterial({ /*color: 0xffffff,*/ map: texture });
+                    break;
+                case "4":
+                    plane.material = new THREE.MeshNormalMaterial({ wireframe: true , color: 0x00ff00 });
+                    break;
+                case "5":
+                    plane.material = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "6":
+                    plane.material = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "7":
+                    plane.material = new THREE.MeshToonMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "8":
+                    plane.material = new THREE.PointsMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "9":
+                    plane.material = new THREE.ShaderMaterial({ color: 0xffffff, map: texture, size: 2.5 });
+                    break;
+                default:
+                    plane.material = new THREE.MeshStandardMaterial({ color: 0xffffff, size: 2.5 });
+                    break;
+            }
+        }
+
+        // Call changeMaterial function when the selection changes
+        document.getElementById("materialSelect").addEventListener("change", changeMaterial);
+
+        var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.receiveShadow = true;
         plane.position.set(0, 0, 0);
         scene.add(plane);
 
-        camera.position.z = 8;
+        camera.position.z = 5;
         camera.position.y = -3;
         camera.rotation.x = .5;
 
         const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.1;
 
-        function render() {
-            requestAnimationFrame(render);
+        function renderiza() {
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            cube2.rotation.x += 0.015;
+            cube2.rotation.y += 0.01;
+            plane.rotation.z += 0.01;
+            light.rotation.y -= 0.01;
+            requestAnimationFrame(renderiza);
             renderer.render(scene, camera);
         }
-        render();
+        renderiza();
     </script>
 </body>
 

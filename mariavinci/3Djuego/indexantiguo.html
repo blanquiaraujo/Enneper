@@ -1,0 +1,118 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Juego 3D de Maria Vinci</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+    <script src="./Three.js"></script>
+    <script type="module">
+      //  import * as THREE from './three.module.js';
+        import { OrbitControls }  from './orbitcontrols.js';
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        var renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        document.body.appendChild(renderer.domElement);
+
+        // CUBE con textura
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
+
+        // Carga la textura
+        var textureLoader = new THREE.TextureLoader();
+
+        var texture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/8.png');
+
+        // Usa MeshStandardMaterial con la textura cargada
+        var material = new THREE.MeshStandardMaterial({ map: texture });
+//        var material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+     
+        var cube = new THREE.Mesh(geometry, material);
+        cube.castShadow = true;
+        cube.position.set(1, 2, 1);
+        scene.add(cube);
+
+
+        // CUBE2 con textura
+        var geometry2 = new THREE.BoxGeometry(2, 2, 2);
+
+        // Carga la textura
+        var textureLoader2 = new THREE.TextureLoader();
+
+        var texture2 = textureLoader2.load('https://enneper.vercel.app/mariavinci/entontuscartitas/1.png');
+
+        // Usa MeshStandardMaterial con la textura cargada
+        var material2 = new THREE.MeshStandardMaterial({ map: texture2 });
+//        var material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+     
+        var cube2 = new THREE.Mesh(geometry2, material2);
+        cube2.castShadow = true;
+        cube2.position.set(2, 4, 2);
+        scene.add(cube2);
+
+
+
+        // SPHERE con textura
+        var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+        var sphereTexture = new THREE.TextureLoader().load('https://enneper.vercel.app/mariavinci/entontuscartitas/0.png');
+        var sphereMaterial = new THREE.MeshStandardMaterial({ map: sphereTexture });
+        var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        sphere.castShadow = true;
+        sphere.position.set(-2, -2, 3);
+        scene.add(sphere);
+
+        // LIGHT 2
+        var light2 = new THREE.DirectionalLight(0xffffff, 1, 10);
+        light2.position.set(-1, 1, 1);
+        light2.castShadow = true;
+        scene.add(light2);
+
+        // Lights
+        const light = new THREE.DirectionalLight(0xffffff, 1, 100);
+        light.position.set(0, 1, 1);
+        light.castShadow = true;
+        scene.add(light);
+
+        // PLANE
+        var planeTexture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/5.png');
+
+        var planeGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
+        var planeMaterial = new THREE.MeshStandardMaterial({ map: planeTexture });
+    
+      //  var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.receiveShadow = true;
+        plane.position.set(0, 0, 0);
+        scene.add(plane);
+
+        camera.position.z = 8;
+        camera.position.y = -3;
+        camera.rotation.x = .5;
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+  //      controls.enableDamping = true;
+    //    controls.dampingFactor = 0.1;
+
+        function render() {
+            requestAnimationFrame(render);
+            renderer.render(scene, camera);
+        }
+        render();
+    </script>
+</body>
+
+</html>

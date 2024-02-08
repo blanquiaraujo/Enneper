@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta charset=utf-8>
+    <meta charset="utf-8">
     <title>Web3D de Maria Vinci</title>
     <style>
         body {
@@ -29,6 +29,11 @@
         <option value="9">ShaderMaterial</option>
     </select>
 
+    <select id="opcionSelect">
+        <option value="1">Opción 1</option>
+        <option value="2">Opción 2</option>
+    </select>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.js"></script>
     <script>
         var scene = new THREE.Scene();
@@ -43,7 +48,7 @@
         var geometry = new THREE.BoxGeometry(2.5, 2.5, 2.5);
         var material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
         var textureLoader = new THREE.TextureLoader();
-        
+
         var texture = textureLoader.load('https://enneper.vercel.app/mariavinci/entontuscartitas/9.png');
 
         var cubeMaterial = new THREE.MeshStandardMaterial({ map: texture });
@@ -57,7 +62,7 @@
         var geometry2 = new THREE.BoxGeometry(1.5, 2.5, 1.5);
         var material2 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
         var textureLoader2 = new THREE.TextureLoader();
-        
+
         var texture2 = textureLoader2.load('https://enneper.vercel.app/mariavinci/entontuscartitas/9.png');
 
         var cubeMaterial2 = new THREE.MeshStandardMaterial({ map: texture2 });
@@ -89,17 +94,17 @@
                     plane.material = new THREE.MeshBasicMaterial({ map: texture });
                     break;
                 case "2":
-                    plane.material = new THREE.MeshDepthMaterial({ 
+                    plane.material = new THREE.MeshDepthMaterial({
                         depthPacking: THREE.BasicDepthPacking /*THREE.RGBADepthPacking*/ , // Almacena la profundidad en los canales RGBA
                         alphaTest: 0.9, // Umbral de transparencia (valor medio)
-                        map: texture 
+                        map: texture
                     });
                     break;
                 case "3":
                     plane.material = new THREE.MeshLambertMaterial({ /*color: 0xffffff,*/ map: texture });
                     break;
                 case "4":
-                    plane.material = new THREE.MeshNormalMaterial({ wireframe: true , color: 0x00ff00 });
+                    plane.material = new THREE.MeshNormalMaterial({ wireframe: true, color: 0x00ff00 });
                     break;
                 case "5":
                     plane.material = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
@@ -125,6 +130,41 @@
         // Call changeMaterial function when the selection changes
         document.getElementById("materialSelect").addEventListener("change", changeMaterial);
 
+        // Function to handle selection change in the second combo
+        function handleOptionChange() {
+            var select = document.getElementById("opcionSelect");
+            var selectedValue = select.options[select.selectedIndex].value;
+
+            // Call imprimeNumero function based on selected value
+            imprimeNumero(selectedValue);
+        }
+
+        // Function to handle the alert based on the selected value
+        function imprimeNumero(value) {
+            if (value === "1") {
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+                cube2.rotation.x += 0.015;
+                cube2.rotation.y += 0.01;
+                plane.rotation.z += 0.01;
+                light.rotation.y -= 0.01;
+                requestAnimationFrame(render);
+                renderer.render(scene, camera);
+                //alert("Hola Opción 1");
+            } else if (value === "2") {
+              //  cube.rotation.x += 0.01;
+              //  cube.rotation.y += 0.01;
+              //  cube2.rotation.x += 0.015;
+              //  cube2.rotation.y += 0.01;
+                plane.rotation.z += 0.01;
+                light.rotation.y -= 0.01;
+                alert("Hola Opción 2");
+            }
+        }
+
+        // Call handleOptionChange function when the selection changes in the second combo
+        document.getElementById("opcionSelect").addEventListener("change", handleOptionChange);
+
         var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.receiveShadow = true;
@@ -135,17 +175,24 @@
         camera.position.y = -3;
         camera.rotation.x = .5;
 
-        function renderiza() {
-            cube.rotation.x += 0.01;
+        function render(imprimeNumero,"1") {
+        /*    cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
             cube2.rotation.x += 0.015;
             cube2.rotation.y += 0.01;
             plane.rotation.z += 0.01;
             light.rotation.y -= 0.01;
-            requestAnimationFrame(renderiza);
+        */  
+            imprimeNumero("1");
+            
+            requestAnimationFrame(render);
+          //  requestAnimationFrame(render);
             renderer.render(scene, camera);
+        
+  
         }
-        renderiza();
+        
+        render();
     </script>
 </body>
 

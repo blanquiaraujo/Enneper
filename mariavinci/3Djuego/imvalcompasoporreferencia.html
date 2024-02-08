@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combo con dos opciones</title>
+</head>
+<body>
+    <label for="opciones">Selecciona una opción:</label>
+    <select id="opciones">
+        <option value="1">opcion1</option>
+        <option value="2">opcion2</option>
+    </select>
+
+    <script type="module">
+        // Objeto para almacenar el valor
+        const valueObject = { value: null };
+
+        // Función para imprimir el mensaje
+        function imprimeNumero() {
+            if (valueObject.value === "1") {
+                alert("Hola opción 1");
+            } else if (valueObject.value === "2") {
+                alert("Hola opción 2");
+            }
+        }
+
+        // Función para manejar el cambio en el combo y actualizar el valor
+        function handleChange(event) {
+            valueObject.value = event.target.value;
+            imprimeNumero(); // Llamar a la función para imprimir el mensaje
+        }
+
+        // Asignar el evento change al combo
+        const select = document.getElementById("opciones");
+        select.addEventListener("change", handleChange);
+    </script>
+</body>
+</html>

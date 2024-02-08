@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combo con dos opciones</title>
+</head>
+<body>
+    <label for="opciones">Selecciona una opción:</label>
+    <select id="opciones">
+        <option value="1">opcion1</option>
+        <option value="2">opcion2</option>
+    </select>
+
+    <script type="module">
+        // Definir funciones para imprimir mensajes
+        function imprimeOpcion1() {
+            alert("Hola opción 1");
+        }
+
+        function imprimeOpcion2() {
+            alert("Hola opción 2");
+        }
+
+        // Función para manejar el cambio en el combo y llamar a la función correspondiente
+        function handleChange(event) {
+            const value = event.target.value;
+            // Definir un objeto que mapee los valores a las funciones correspondientes
+            const functionsMap = {
+                "1": imprimeOpcion1,
+                "2": imprimeOpcion2
+            };
+            // Obtener la función correspondiente al valor seleccionado y llamarla
+            const selectedFunction = functionsMap[value];
+            if (selectedFunction) {
+                selectedFunction();
+            }
+        }
+
+        // Asignar el evento change al combo
+        const select = document.getElementById("opciones");
+        select.addEventListener("change", handleChange);
+    </script>
+</body>
+</html>
