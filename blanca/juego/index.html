@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width" > <!--, initial-scale=1.0" /> -->
 
 
-    <title>Juego 3D de Blanqui, Brais y Julieta</title>
+    <title>Xogo 3D de Blanqui, Brais e Iuiu</title>
     <link rel="stylesheet" href="styles.css"> <!-- Enlaza tu archivo CSS externo aquí -->
     <style>
     body {
@@ -39,12 +39,12 @@
 </head>
 <body>
     <div id="textoAyuda" width="100px">
-        Ayuda
+        Axuda
     </div>
     <div top: 0px>
         &nbsp;&nbsp;
         <select id="materialSelect">
-            <option value="0">--Elige material--</option>
+            <option value="0">--Elixe material--</option>
             <option value="1">MeshBasicMaterial</option>
             <option value="2">MeshDepthMaterial</option>
             <option value="3">MeshLambertMaterial</option>
@@ -68,7 +68,7 @@
         
         // Función para mostrar el alert al hacer clic en el texto
         textoAyuda.addEventListener('click', function() {
-            alert("Ayuda \n\n Movimientos : \n Boton izquierdo+click : Gira  \n Boton derecho + Click : Traslada \n Rueda : Acerca y Aleja " ) 
+            alert("Axuda \n\n Movementos : \n  1 Dedo e Move : Xira  \n  2 dedos e Move : Traslada \n  Separa 2 dedos : Zoom " ) 
             });
 
         // Función para cambiar el color del texto al pasar el ratón sobre él
@@ -222,7 +222,7 @@
             // Clear existing options
             textureSelect.innerHTML = "";
             // Array of image filenames without extension
-            var images = ["--Elige foto--",
+            var images = ["--Elixe foto--",
                         "Avion",
                         "Braisleon",
                         "CoventGarden",
@@ -255,6 +255,25 @@
 
         // Event listener for texture select change
         document.getElementById("textureSelect").addEventListener("change", changeTexture);
+
+
+    // Add event listener for window resizing
+    window.addEventListener('resize', onWindowResize, false);
+
+
+    // Handle window resize
+    function onWindowResize() {
+        const newWidth = window.innerWidth;
+        const newHeight = window.innerHeight;
+
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(newWidth, newHeight);
+    }
+
+
+
     </script>
 </body>
 
