@@ -142,7 +142,8 @@
         var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.receiveShadow = true;
-        plane.position.set(0, 0, -2);
+                         // 0,0,-2
+        plane.position.set(-1.0, -1.0, -4);
         scene.add(plane);
 
         camera.position.z = 5;
@@ -161,7 +162,8 @@
             cube2.rotation.x += 0.015;
             cube2.rotation.y += 0.01;
             plane.rotation.z += 0.01;
-            light.rotation.y -= 0.01;
+                        //y  
+            light.rotation.z -= 0.01;
             requestAnimationFrame(renderiza);
             renderer.render(scene, camera);
         }
