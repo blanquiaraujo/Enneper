@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <title>Juego 3D de Blanqui, Brais y Julieta</title>
+</head>
+<style>
+        body {
+            font-family: 'Verdana', sans-serif; 
+            font-size: 10px;
+            margin: 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elige Material: 
+    <select id="materialSelect">
+        <option value="1">MeshBasicMaterial</option>
+        <option value="2">MeshDepthMaterial</option>
+        <option value="3">MeshLambertMaterial</option>
+        <option value="4">MeshNormalMaterial</option>
+        <option value="5">MeshPhongMaterial</option>
+        <option value="6">MeshStandardMaterial</option>
+        <option value="7">MeshToonMaterial</option>
+        <option value="8">PointsMaterial</option>
+        <option value="9">ShaderMaterial</option>
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elige Foto: 
+    <select id="textureSelect">
+        <!-- Options will be dynamically added using JavaScript -->
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;© arauxodev 2024
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.js"></script>
+    <script type="module">
+        //  import * as THREE from './three.module.js';
+          import { OrbitControls }  from './orbitcontrols.js';
+  
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        var renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        document.body.appendChild(renderer.domElement);
+
+        // CUBE
+        var geometry = new THREE.BoxGeometry(2.5, 2.5, 2.5);
+        var material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+        var textureLoader = new THREE.TextureLoader();
+        
+        var texture = textureLoader.load('./textures/Perfil.jpg');
+
+        var cubeMaterial = new THREE.MeshStandardMaterial({ map: texture });
+
+        var cube = new THREE.Mesh(geometry, cubeMaterial);
+        cube.castShadow = true;
+        cube.position.set(-1, -1, 1);
+        scene.add(cube);
+
+        // CUBE 2
+        var geometry2 = new THREE.BoxGeometry(1.5, 2.5, 1.5);
+        var material2 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+        var textureLoader2 = new THREE.TextureLoader();
+        
+        var texture2 = textureLoader2.load('./textures/Julieta.jpg');
+
+        var cubeMaterial2 = new THREE.MeshStandardMaterial({ map: texture2 });
+
+        var cube2 = new THREE.Mesh(geometry2, cubeMaterial2);
+        cube2.castShadow = true;
+        cube2.position.set(1, 5, 1);
+        scene.add(cube2);
+
+        // LIGHT
+        var light = new THREE.DirectionalLight(0xffffff, 1, 10);
+        light.position.set(-1, 1, 1);
+        light.castShadow = true;
+        scene.add(light);
+
+        // PLANE
+        var planeGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
+        // Load texture
+        var texture = textureLoader.load('./textures/v.png');
+
+        var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
+        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.receiveShadow = true;
+        plane.position.set(0, 0, 0);
+        scene.add(plane);
+
+        camera.position.z = 5;
+        camera.position.y = -3;
+        camera.rotation.x = .5;
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.1;
+
+        function renderiza() {
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            cube2.rotation.x += 0.015;
+            cube2.rotation.y += 0.01;
+            plane.rotation.z += 0.01;
+            light.rotation.y -= 0.01;
+            requestAnimationFrame(renderiza);
+            renderer.render(scene, camera);
+        }
+        renderiza();
+
+        // Function to change plane material based on selected option
+        function changeMaterial() {
+            var select = document.getElementById("materialSelect");
+            var selectedValue = select.options[select.selectedIndex].value;
+
+            // Set material based on selected value
+            switch (selectedValue) {
+                case "1":
+                    plane.material = new THREE.MeshBasicMaterial({ map: texture });
+                    break;
+                case "2":
+                    plane.material = new THREE.MeshDepthMaterial({ 
+                        depthPacking: THREE.BasicDepthPacking /*THREE.RGBADepthPacking*/ , // Almacena la profundidad en los canales RGBA
+                        alphaTest: 0.9, // Umbral de transparencia (valor medio)
+                        map: texture 
+                    });
+                    break;
+                case "3":
+                    plane.material = new THREE.MeshLambertMaterial({ /*color: 0xffffff,*/ map: texture });
+                    break;
+                case "4":
+                    plane.material = new THREE.MeshNormalMaterial({ wireframe: true , color: 0x00ff00 });
+                    break;
+                case "5":
+                    plane.material = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "6":
+                    plane.material = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "7":
+                    plane.material = new THREE.MeshToonMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "8":
+                    plane.material = new THREE.PointsMaterial({ color: 0xffffff, map: texture });
+                    break;
+                case "9":
+                    plane.material = new THREE.ShaderMaterial({ color: 0xffffff, map: texture, size: 2.5 });
+                    break;
+                default:
+                    plane.material = new THREE.MeshStandardMaterial({ color: 0xffffff, size: 2.5 });
+                    break;
+            }
+
+            // Also change the texture when changing the material
+            changeTexture();
+        }
+
+        // Call changeMaterial function when the selection changes
+        document.getElementById("materialSelect").addEventListener("change", changeMaterial);
+
+        // Function to load textures from the textures folder
+        function loadTextures() {
+            var textureSelect = document.getElementById("textureSelect");
+            // Clear existing options
+            textureSelect.innerHTML = "";
+            // Array of image filenames without extension
+            var images = ["Avion",
+                        "Braisleon",
+                        "CoventGarden",
+                        "Julieta",
+                        "JurassicWorld",
+                        "Legoland",
+                        "Legoland2",
+                        "London",
+                        "Perfil"
+                    ]; // Add more filenames as needed
+            images.forEach(function(imageName) {
+                var option = document.createElement("option");
+                option.value = imageName;
+                option.textContent = imageName;
+                textureSelect.appendChild(option);
+            });
+            // Trigger change event to load the initial texture
+            textureSelect.dispatchEvent(new Event('change'));
+        }
+
+        // Call loadTextures function to populate the texture select options
+        loadTextures();
+
+        // Function to change the texture of the plane
+        function changeTexture() {
+            var selectedTexture = document.getElementById("textureSelect").value;
+            var texturePath = './textures/' + selectedTexture + '.jpg';
+            plane.material.map = textureLoader.load(texturePath);
+        }
+
+        // Event listener for texture select change
+        document.getElementById("textureSelect").addEventListener("change", changeTexture);
+    </script>
+</body>
+
+</html>
