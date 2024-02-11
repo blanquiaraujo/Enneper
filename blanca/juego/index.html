@@ -292,12 +292,8 @@
         renderer.setSize(newWidth, newHeight);
     }
 
-
-
-
-
     </script>
-
+<!--
 <script>
     // Ajustar el tamaño de fuente del cuerpo en función de las dimensiones de la ventana
     function adjustBodyFontSize() {
@@ -319,6 +315,45 @@
     // Llamar a la función al cargar la página
     adjustBodyFontSize();
 </script>
+-->
+<script>
+//PORTRAIT Y LANDSCAPE
+
+
+
+// Ajustar el tamaño de fuente del cuerpo en función de las dimensiones de la ventana y la orientación
+    function adjustBodyFontSize() {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var fontSize;
+
+        // Determinar el tamaño de fuente basado en la orientación de la pantalla
+        if (width > height) {
+            // Landscape orientation
+            fontSize = Math.min(width, height) * 0.03;
+        } else {
+            // Portrait orientation
+            fontSize = Math.min(width, height) * 0.06;
+        }
+
+        // Establecer el tamaño de fuente
+        document.body.style.fontSize = fontSize + 'px';
+    }
+
+    // Llamar a la función para ajustar el tamaño de fuente cuando la ventana se redimensione
+    window.addEventListener('resize', adjustBodyFontSize);
+
+    // Llamar a la función al cargar la página
+    adjustBodyFontSize();
+</script>
+
+
+
+
+
+
+
+
 <script>
     // Función para ajustar el tamaño de fuente del select en función de las dimensiones de la ventana
     function adjustSelectFontSize() {
