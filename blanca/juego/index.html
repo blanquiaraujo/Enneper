@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width" > <!--, initial-scale=1.0" /> -->
+    <meta name="viewport" content="width=device-width" , initial-scale=1.0" />
 
     <title>Xogo 3D de Blanqui, Javi, Brais e Iuiu</title>
     <link rel="stylesheet" href="styles.css"> <!-- Enlaza tu archivo CSS externo aquí -->
@@ -294,7 +294,28 @@
 
 
 
+
+
     </script>
+
+<script>
+    // Ajustar el tamaño de fuente del cuerpo en función de las dimensiones de la ventana
+    function adjustBodyFontSize() {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var fontSize = Math.min(width, height) * 0.03; // Ajustar este valor según sea necesario
+
+        document.body.style.fontSize = fontSize + 'px';
+        document.select.style.fontSize = fontSize + 'px';
+    }
+
+    // Llamar a la función para ajustar el tamaño de fuente cuando la ventana se redimensione
+  //  window.addEventListener('resize', adjustBodyFontSize);
+
+    // Llamar a la función al cargar la página
+ //   adjustBodyFontSize();
+</script>
+
 </body>
 
 </html>
