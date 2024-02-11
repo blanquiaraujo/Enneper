@@ -304,16 +304,44 @@
         var width = window.innerWidth;
         var height = window.innerHeight;
         var fontSize = Math.min(width, height) * 0.03; // Ajustar este valor según sea necesario
-
-        document.body.style.fontSize = fontSize + 'px';
-        document.select.style.fontSize = fontSize + 'px';
+       
+        // Tamaño de las fuentes variable segun el tamaño de la ventana
+        // document.body.style.fontSize = fontSize + 'px';
+        // document.select.style.fontSize = fontSize + 'px';
+    
+        // Tamaño de fuentes fijo
+        document.body.style.fontSize = '15px';
     }
 
     // Llamar a la función para ajustar el tamaño de fuente cuando la ventana se redimensione
-  //  window.addEventListener('resize', adjustBodyFontSize);
+    window.addEventListener('resize', adjustBodyFontSize);
 
     // Llamar a la función al cargar la página
- //   adjustBodyFontSize();
+    adjustBodyFontSize();
+</script>
+<script>
+    // Función para ajustar el tamaño de fuente del select en función de las dimensiones de la ventana
+    function adjustSelectFontSize() {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var fontSize = Math.min(width, height) * 0.02; // Ajusta este valor según sea necesario
+
+        var selects = document.querySelectorAll('select');
+        selects.forEach(function(select) {
+
+            // Tamaño de fuente variable segun el tamaño de la ventana
+            // select.style.fontSize = fontSize + 'px';
+
+            // Tamaño de fuente fijo
+            select.style.fontSize = '15px';
+        });
+    }
+
+    // Llamar a la función para ajustar el tamaño de fuente cuando la ventana se redimensione
+    window.addEventListener('resize', adjustSelectFontSize);
+
+    // Llamar a la función al cargar la página
+    adjustSelectFontSize();
 </script>
 
 </body>
