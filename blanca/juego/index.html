@@ -4,11 +4,15 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width" , initial-scale=1.0" />
+    <meta name="viewport">  
+    
+<!-- content="width=device-width" , initial-scale=1.0" />-->
+
 
     <title>Xogo 3D de Blanqui, Javi, Brais e Iuiu</title>
     <link rel="stylesheet" href="styles.css"> <!-- Enlaza tu archivo CSS externo aquí -->
     <style>
+
     body {
         color: white; 
         font-family: 'Verdana', sans-serif; 
@@ -99,8 +103,13 @@
     </script>
 
 
-<script>
-// Ajustar el tamaño de fuente del cuerpo en función de las dimensiones de la ventana y la orientación
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.js"></script>
+    <script type="module">
+        //  import * as THREE from './three.module.js';
+        import { OrbitControls }  from './orbitcontrols.js';
+
+
+        // Ajustar el tamaño de fuente del cuerpo en función de las dimensiones de la ventana y la orientación
     function adjustBodyFontSize() {
         var width = window.innerWidth;
         var height = window.innerHeight;
@@ -136,15 +145,23 @@
 
     // Llamar a la función al cargar la página
     adjustBodyFontSize();
-</script>
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.js"></script>
-    <script type="module">
-        //  import * as THREE from './three.module.js';
-        import { OrbitControls }  from './orbitcontrols.js';
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         var scene = new THREE.Scene();          //75
         var camera = new THREE.PerspectiveCamera(85, window.innerWidth / window.innerHeight, 0.1, 1000);
 
