@@ -338,6 +338,18 @@
 
         // Establecer el tamaño de fuente
         document.body.style.fontSize = fontSize + 'px';
+
+        var selects = document.querySelectorAll('select');
+        selects.forEach(function(select) {
+
+            // Tamaño de fuente variable segun el tamaño de la ventana
+            select.style.fontSize = fontSize + 'px';
+
+            // Tamaño de fuente fijo
+            //select.style.fontSize = '15px';
+        });
+
+
     }
 
     // Llamar a la función para ajustar el tamaño de fuente cuando la ventana se redimensione
@@ -347,13 +359,7 @@
     adjustBodyFontSize();
 </script>
 
-
-
-
-
-
-
-
+<!--
 <script>
     // Función para ajustar el tamaño de fuente del select en función de las dimensiones de la ventana
     function adjustSelectFontSize() {
@@ -378,7 +384,7 @@
     // Llamar a la función al cargar la página
     adjustSelectFontSize();
 </script>
-
+-->
 </body>
 
 </html>
