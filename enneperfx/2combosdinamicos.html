@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Combo Dinámico</title>
+</head>
+<body>
+
+<select id="primerCombo" onchange="mostrarSegundoCombo()">
+  <option value="opcion1">Opción 1</option>
+  <option value="opcion2">Opción 2</option>
+  <option value="opcion3">Opción 3</option>
+</select>
+
+<select id="segundoCombo" disabled>
+  <option value="opcionA">Opción A</option>
+  <option value="opcionB">Opción B</option>
+  <option value="opcionC">Opción C</option>
+  <option value="opcionD">Opción D</option>
+</select>
+
+<script>
+function mostrarSegundoCombo() {
+  var primerCombo = document.getElementById("primerCombo");
+  var segundoCombo = document.getElementById("segundoCombo");
+  
+  if (primerCombo.value === "opcion2") {
+    segundoCombo.disabled = false;
+  } else {
+    segundoCombo.disabled = true;
+  }
+}
+</script>
+
+</body>
+</html>
