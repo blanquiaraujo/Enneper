@@ -122,20 +122,11 @@
         let surfaceMesh;
         let isAnimationPaused = false;
         let animationId;
+        import { OrbitControls }  from './orbitcontrols.js';
  
         var primerSelect = document.getElementById("primerSelect");
-  var segundoSelect = document.getElementById("segundoSelect");
+        var segundoSelect = document.getElementById("segundoSelect");
 
-  /*
-  if (primerSelect.value === "opcion2") {
-    segundoSelect.disabled = false;
-  } else {
-    segundoSelect.disabled = true;
-    // Establecer la opción D como la opción seleccionada por defecto cada vez que se desactiva el segundo select
-    segundoSelect.selectedIndex = 3;
-  }
- 
- */
         function mostrarComboTextura() {
             var primerCombo = document.getElementById("material-select");
             var segundoCombo = document.getElementById("texture-select");
@@ -148,7 +139,6 @@
             }
         }
 
-        import { OrbitControls }  from './orbitcontrols.js';
   
         // Initialize Three.js scene
         function init() {
@@ -423,13 +413,6 @@
                     const z = scale * r * Math.sin(v) * (1 + k * u);
                     target.set(x, y, z);
                 }, 100, 100);
-            // alert('hola clifford');
-
-
-
-
-
-
 
 
                
@@ -492,22 +475,31 @@
             switch (selectedMaterial) {
                 case 'basico':
                     material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                    scene.fog = new THREE.Fog(0x000090, 2.2, 5); // Restaurar la niebla
+           
                     break;
                 case 'textura':
                     // changeTexture();
                     // alert('entra!');
                     material = new THREE.MeshBasicMaterial({ map: texture , color: 0xffffff });
                     //surfaceMesh.material.color = 0xffffff;
+                    scene.fog = null;
                     break;
                 case 'wireframe':
                     material = new THREE.MeshNormalMaterial({ wireframe: true , color: 0x00ff00 });
+                    scene.fog = null;
+           
                     break;
                 case 'basicoazul':
                     material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });// Lambert
+                    scene.fog = new THREE.Fog(0x000090, 2.2, 5); // Restaurar la niebla
+           
                     // material.color = 0x0000ff;
                     break;
                 default:
                     material = new THREE.MeshBasicMaterial();
+                    scene.fog = new THREE.Fog(0x000090, 2.2, 5); // Restaurar la niebla
+           
                     break;
             }
             
