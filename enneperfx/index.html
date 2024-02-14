@@ -68,16 +68,22 @@
 </div>
 <div class="divAbsolute">
 <select id="surface-select">   <!-- onchange="changeSurface()"> -->
-    <option value="klein">Botella de Klein</option>
-    <option value="airy">Sombreiro Mexicano</option>
+    <option value="toroboy">Toro de Boy</option>
     <option value="clifford">Toro de Clifford</option>
+    <option value="supenneper">Sup. Enneper</option>
+    <option value="supscherk">Sup. Scherk</option>
+    <option value="estanque">Onda Estanque</option>
+    <option value="klein">Botella de Klein</option>
+    <option value="mobius">Banda Mobius</option>
+    <option value="airy">Sombreiro Mexicano</option>
+
 </select>
 
 <!-- Combo box for selecting materials -->
 <select id="material-select">  <!-- onchange="changeMaterial()"> -->
-    <option value="basico" selected>Material Básico</option>
+    <option value="wireframe" selected>Wireframe</option>
+    <option value="basico">Material Básico</option>
     <option value="textura">Material Textura</option>
-    <option value="wireframe">Wireframe</option>
     <option value="basicoazul">Básico Azul</option>
 </select>
 
@@ -165,9 +171,9 @@
             const fogFar = 5;
             scene.fog = new THREE.Fog(fogColor, fogNear, fogFar);
             //scene.fog = null;
-            // Create initial geometry (Scherk surface)
             
-    // Create the Clifford Torus geometry
+            
+            // Create the Toro Boy geometry
             const geometry = new THREE.ParametricGeometry((u, v, target) => {
                 const scale = 1.36;
 
@@ -192,8 +198,8 @@
             const texture = textureLoader.load('./textures/Perfil.jpg');
 
             // Create material with the loaded texture
-            
-            const material = new THREE.MeshBasicMaterial(); // { map: texture }
+            const material = new THREE.MeshNormalMaterial({ wireframe: true , color: 0x00ff00 });
+            //const material = new THREE.MeshBasicMaterial(); // { map: texture }
 
 
             // Create mesh with the new material and geometry
@@ -286,10 +292,6 @@
 
                 }, 100, 100);
 
-                //alert("hola");
-                //init();
-                //animate();
-                
             } else if (selectedSurface === 'airy') {
 
     // Create the Airy surface geometry
@@ -309,9 +311,26 @@
 
 
 
+            } else if (selectedSurface === 'toroboy') {
 
-// Create the Airy surface geometry
 
+               
+                // Create the Boy Torus geometry
+                geometry = new THREE.ParametricGeometry((u, v, target) => {
+                    const scale = 1.36;
+
+                    const a = 1.0;
+                    const b = 0.5;
+
+                    u = (u - 0.0) * 2 * Math.PI;
+                    v = (v - 0.0) * 2 * Math.PI;
+
+                    const x = scale * (a + b * Math.cos(v)) * Math.cos(u);
+                    const y = scale * (a + b * Math.cos(v)) * Math.sin(u);
+                    const z = scale * (b * Math.sin(v) +
+                        2 * a * Math.sin(0.5 * v) * Math.sin(0.5 * v));
+                    target.set(x, y, z);
+                }, 100, 100);
 
             } else if (selectedSurface === 'clifford') {
                 //Create the Clifford Torus geometry
@@ -332,6 +351,106 @@
                 }, 100, 100);
             // alert('hola clifford');
 
+        } else if (selectedSurface === 'supenneper') {
+                                
+                // Create the Enneper surface geometry
+                geometry = new THREE.ParametricGeometry((u, v, target) => {
+                    const scale = 0.4;
+
+                    // Limit u and v to the range (-2, 2)
+                    u = (u - 0.5) * 4;
+                    v = (v - 0.5) * 4;
+
+                    const x = scale * (u - (u * u * u) / 3 + u * v * v);
+                    const y = scale * (v - (v * v * v) / 3 + v * u * u);
+                    const z = scale * (u * u - v * v);
+                    target.set(x, y, z);
+                }, 100, 100);
+
+
+        } else if (selectedSurface === 'mobius') {
+                // Create the Mobius surface geometry
+                geometry = new THREE.ParametricGeometry((u, v, target) => {
+                    const scale = 1.6; //2.2
+
+                    // Limit u and v to the range (0, 2*PI) y (-1,1)
+                    u = (u - 0.0) * 2 * Math.PI;
+                    v = (v - 0.5) * 2;
+
+                    const x = scale * (1 + v/2 * Math.cos(u/2)) * Math.cos(u);
+                    const y = scale * (1 + v/2 * Math.cos(u/2)) * Math.sin(u);
+                    const z = scale * v/2 * Math.sin(u/2);
+
+                    target.set(x, y, z);
+                }, 100, 100);
+
+                        
+                        
+               
+        } else if (selectedSurface === 'supscherk') {
+                           
+                // Create the Scherk surface geometry
+                geometry = new THREE.ParametricGeometry((u, v, target) => {
+                    // Mapping u and v to the range (-10, 10)
+                    const uMapped = (u * 30) - 15;
+                    const vMapped = (v * 30) - 15;
+                    const scale = 0.8;
+
+                    // Define the parametric equation for the Scherk surface here
+                    const x = uMapped;
+                    const y = vMapped;
+                    const z = scale * (Math.log10(Math.cosh(vMapped)) / Math.cosh(uMapped));
+
+                    target.set(x, y, z);
+                }, 100, 100);
+
+        
+        
+            } else if (selectedSurface === 'clifford') {
+                //Create the Clifford Torus geometry
+                geometry = new THREE.ParametricGeometry((u, v, target) => {
+                    const scale = 0.6;
+
+                    const R = 3;
+                    const r = 1;
+                    const k = 0.5;
+
+                    u = (u - 0.0) * 2 * Math.PI;
+                    v = (v - 0.0) * 2 * Math.PI;
+
+                    const x = scale * (R + r * Math.cos(v)) * Math.cos(u);
+                    const y = scale * (R + r * Math.cos(v)) * Math.sin(u);
+                    const z = scale * r * Math.sin(v) * (1 + k * u);
+                    target.set(x, y, z);
+                }, 100, 100);
+            // alert('hola clifford');
+
+
+
+
+
+
+
+
+               
+            } else if (selectedSurface === 'estanque') {
+        
+                
+                // Create the Onda Estanque surface geometry
+                geometry = new THREE.ParametricGeometry((u, v, target) => {
+                    const scale = 0.88; //1.85
+
+                    // Limit u and v to the range (0, 2*PI) y (-1,1)
+                    u = (u - 0.5) * 2 * 5;
+                    v = (v - 0.5) * 2 * 5;
+
+                    const x = 1 * u;
+                    const y = 1 * v;
+                    const z = scale * 2 * (Math.sin(Math.PI * Math.sqrt(x * x + y * y)));
+                                    
+                    target.set(x, y, z);
+                }, 200, 200);
+   
             }
 
             const textureLoader = new THREE.TextureLoader();
