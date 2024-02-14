@@ -8,7 +8,7 @@ function init() {
     scene = new THREE.Scene();
 
     // Create a camera
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera = new  THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 5;
 
     // Create a renderer
@@ -26,14 +26,14 @@ function init() {
 
     // Create the Enneper surface geometry
     const geometry = new THREE.ParametricGeometry((u, v, target) => {
-        const scale = 0.014;
+        const scale = 0.4;
 
         // Limit u and v to the range (-2, 2)
         u = (u - 0.5) * 4;
         v = (v - 0.5) * 4;
 
-        const x = 1 * (u - (u * u * u) / 3 + u * v * v);
-        const y = 1 * (v - (v * v * v) / 3 + v * u * u);
+        const x = scale * (u - (u * u * u) / 3 + u * v * v);
+        const y = scale * (v - (v * v * v) / 3 + v * u * u);
         const z = scale * (u * u - v * v);
         target.set(x, y, z);
     }, 100, 100);
