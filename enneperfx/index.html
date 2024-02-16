@@ -82,6 +82,7 @@
 <!-- Combo box for selecting materials -->
 <select id="material-select">  <!-- onchange="changeMaterial()"> -->
     <option value="wireframe" selected>Wireframe</option>
+    <option value="wireframe2">Wireframe Clásico</option>
     <option value="basico">Material Básico</option>
     <option value="textura">Material Textura</option>
     <option value="basicoazul">Básico Azul</option>
@@ -491,8 +492,13 @@
                 case 'wireframe':
                     material = new THREE.MeshNormalMaterial({ wireframe: true , color: 0x00ff00 });
                     scene.fog = null;
-           
                     break;
+
+                case 'wireframe2':
+                    material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+                    scene.fog = new THREE.Fog(0x000090, 2.2, 5); // Restaurar la niebla
+                    break;
+
                 case 'basicoazul':
                     material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });// Lambert
                     scene.fog = new THREE.Fog(0x000090, 2.2, 5); // Restaurar la niebla
