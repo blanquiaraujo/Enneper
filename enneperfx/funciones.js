@@ -177,7 +177,23 @@ export function changeSurface() {
             target.set(x, y, z);
         }, 200, 200);
 
+    } else if (selectedSurface === 'sherlock') {
 
+        // Create the Airy surface geometry
+            geometry = new THREE.ParametricGeometry((u, v, target) => {
+            const scale = 1.68;
+        
+            u = (u - 0.5) * 2 * 5;
+            v = (v - 0.5) * 2 * 5;
+        
+            const x = scale * ((1- u * u * u) * Math.sin(v));
+            const y = scale * ((1- u * u * u) * Math.cos(v));
+            const z = scale * u;
+           
+           target.set(x, y, z);
+        }, 200, 200);
+        
+        
 
     } else if (selectedSurface === 'toroboy') {
 
