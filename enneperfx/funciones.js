@@ -181,18 +181,19 @@ export function changeSurface() {
 
         // Create the Airy surface geometry
             geometry = new THREE.ParametricGeometry((u, v, target) => {
-            const scale = 1.68;
+            const scale = 1.0;//1.68
+/*
+            u = (u - 0.1) * 2 * 4.5;//Math.PI;
+            v = (v - 0.1) * 2 * 4.5;//Math.PI;
+*/
 
-            u = (u - 0.0) * 2 * Math.PI;
-            v = (v - 0.0) * 2 * Math.PI;
+            u = (u - 0.5) * 2 ;//Math.PI;
+            v = (v - 0.0) * 2 * 3.15;//Math.PI;
 
-/*        
-            u = (u - 0.5) * 2 * 5;
-            v = (v - 0.5) * 2 * 5;
-  */      
+
             const x = scale * ((1- u * u * u) * Math.sin(v));
             const y = scale * ((1- u * u * u) * Math.cos(v));
-            const z = scale * u;
+            const z = scale * (u + 0.1);
            
            target.set(x, y, z);
         }, 200, 200);
