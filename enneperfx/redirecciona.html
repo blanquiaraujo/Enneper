@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redireccionar Opciones</title>
+</head>
+<body>
+
+<select id="opciones" onchange="redireccionar()">
+  <option value="google">Google</option>
+  <option value="bing">bing</option>
+  <option value="chatgpt">ChatGPT</option>
+</select>
+
+<script>
+function redireccionar() {
+  var opcion = document.getElementById("opciones").value;
+  var url;
+
+  switch (opcion) {
+    case "google":
+      url = "http://www.google.es";
+      break;
+    case "bing":
+      url = "http://www.bing.com";
+      break;
+    case "chatgpt":
+      url = "http://www.chatgpt.com";
+      break;
+    default:
+      url = "http://www.example.com"; // Puedes establecer una URL predeterminada aquí
+  }
+
+  window.location.href = url;
+}
+</script>
+
+</body>
+</html>

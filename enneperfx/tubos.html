@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width , user-scalable=no"> 
+        
+        <title>Enneper Full Experience </title>
+        <link rel="stylesheet" href="styles.css"> <!-- Enlaza tu archivo CSS externo aquí -->
+    </head>
+<body>
+<div id="textoEnneperFX">
+        EnneperFX   © arauxodev
+</div>
+   
+<div id="textoAyuda">
+     Axuda
+</div>
+<div class="divAbsolute">
+<select id="surface-select">   <!-- onchange="changeSurface()"> -->
+    <option value="toroboy">Toro de Boy</option>
+    <option value="clifford">Toro de Clifford</option>
+    <option value="supenneper">Sup. Enneper</option>
+    <option value="supscherk">Sup. Scherk</option>
+    <option value="estanque">Onda Estanque</option>
+    <option value="klein">Botella de Klein</option>
+    <option value="mobius">Banda Mobius</option>
+    <option value="mobiuscirc">Mobius Circular</option>
+    <option value="airy">Sombreiro Mexicano</option>
+    <option value="sherlock">Sombreiro Sherlock</option>
+    <option value="arconwallis">Arista Conica Wallis</option>
+    <option value="cicloideorox">Cicloide Ordinaria Rev. OX</option>
+    <option value="cicloideoroz">Cicloide Ordinaria Rev. OZ</option>
+    <option value="agnesi">Agnesi Rev.</option>
+    <option value="astroide">Astroide Rev.</option>
+    <option value="superelip1545">Superelipsoide 1/5 - 4/5</option>
+    <option value="superelip1545imp">Superelipsoide 1/5 - 4/5 implicita </option>
+    <option value="supertoroide1515">Supertoroide 1/5 - 1/5</option>
+
+    <option value="curvasplanascardioide">Curvas Pl. Cardioide</option>
+    <option value="curvasplanasastroide">Curvas Pl. Astroide</option>
+    <option value="curvasplanascicloidealargada">Curvas Pl. Cicloide Alargada</option>
+    <option value="tubosviviani">Tubos Viviani</option>
+
+    <option value="cicloidealox">Cicloide Alargada Rev. OX</option>
+    <option value="cicloidealoz">Cicloide Alargada Rev. OZ</option>
+    <option value="bifoliaox">Bifolia Rev. OX</option>
+    <option value="bifoliaoz">Bifolia Rev. OZ</option>
+</select>
+
+<!-- Combo box for selecting materials -->
+<select id="material-select">  <!-- onchange="changeMaterial()"> -->
+    <option value="wireframe" selected>Wireframe</option>
+    <option value="wireframe2">Wireframe Clásico</option>
+    <option value="basico">Material Básico</option>
+    <option value="textura">Material Textura</option>
+    <option value="basicoazul">Básico Azul</option>
+</select>
+
+<!-- Combo box for selecting textures -->
+<select id="texture-select" disabled> <!-- onchange="changeTexture()"> -->
+    <option value="Julieta.jpg">Iuiu</option>
+    <option value="Perfil.jpg">Perfil</option>
+    <option value="Avion.jpg">Avion</option>
+    <!-- Agrega aquí las opciones para todas las imágenes disponibles en la carpeta "textures" -->
+</select>
+</div>
+<script>
+    // Obtener el elemento de texto de ayuda por su ID
+    var textoAyuda = document.getElementById("textoAyuda");
+    
+    // Función para mostrar el alert al hacer clic en el texto
+    textoAyuda.addEventListener('click', function() {
+        alert("Axuda \n\n Movementos : \n  1 Dedo e Move : Xira  \n  2 dedos e Move : Traslada \n  Separa 2 dedos : Zoom \n\n Elixe nos menus desplegables as distintas Superficies e os Tipos de Vista e vai cambiando os valores" ) 
+        });
+
+    // Función para cambiar el color del texto al pasar el ratón sobre él
+    textoAyuda.addEventListener('mouseover', function() {
+        textoAyuda.style.color = 'green';
+    });
+
+    // Función para restaurar el color del texto cuando el ratón sale de él
+    textoAyuda.addEventListener('mouseout', function() {
+        textoAyuda.style.color = 'white';
+    });
+</script>
+
+<div id="canvas-container">
+    <script src="Three.js"></script>
+    <script type="module" src="funciones.js"></script>
+    <script type="module">
+        import { OrbitControls }  from './orbitcontrols.js';
+        import { changeSurface , init , animate , changeMaterial , 
+                 changeTexture ,onWindowResize , mostrarComboTextura }  from './funciones.js';
+        
+        let scene, camera, renderer;
+        let surfaceMesh;
+        let isAnimationPaused = false;
+        let animationId;
+ 
+        var primerSelect = document.getElementById("primerSelect");
+        var segundoSelect = document.getElementById("segundoSelect");
+        
+        // Initialize Three.js scene
+        // Start the animation
+        init();
+        animate();
+   //     scene.fog = null;
+        // Call changeMaterial function when the selection changes
+        document.getElementById("surface-select").addEventListener("change", changeSurface);
+
+        // Call changeMaterial function when the selection changes
+        document.getElementById("material-select").addEventListener("change", changeMaterial);
+
+        // Call changeMaterial function when the selection changes
+        document.getElementById("texture-select").addEventListener("change", changeTexture);
+</script>
+</div>
+</body>
+</html>
