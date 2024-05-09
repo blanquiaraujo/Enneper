@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8"> 
 
         <meta name="viewport" content="width=device-width , user-scalable=no"> 
         
@@ -20,11 +20,17 @@
 
 <select id="opciones" onchange="redireccionar()">
     <option value="mobile">Enneper Mobile</option>
+    <option value="miscelanea">Miscelanea</option>
     <option value="revolucion">Revolución</option>
+    <option value="sphehar">Armónicos Esféricos</option>
+    <option value="tubos">Tubos</option>
+    <option value="implicitas">Implícitas</option>
     <option value="curvasplanas" selected>Curvas Planas</option>
-    </select>
+    <option value="suptoroid">Supertoroides</option>
+    <option value="supelip">Superelipsoides</option>
+</select>
     
-    <script>
+<script>
     function redireccionar() {
     var opcion = document.getElementById("opciones").value;
     var url;
@@ -33,11 +39,29 @@
         case "mobile":
         url = "./index.html";
         break;
+        case "miscelanea":
+        url = "./miscelanea.html";
+        break;
         case "revolucion":
         url = "./revolucion.html";
         break;
+        case "sphehar":
+        url = "./sphehar.html";
+        break;
+        case "tubos":
+        url = "./tubos.html";
+        break;
+        case "implicitas":
+        url = "./implicitas.html";
+        break;
         case "curvasplanas":
         url = "./curvasplanas.html";
+        break;
+        case "suptoroid":
+        url = "./suptoroid.html";
+        break;
+        case "supelip":
+        url = "./supelip.html";
         break;
         default:
         url = "./index.html"; // Puedes establecer una URL predeterminada aquí
@@ -45,8 +69,10 @@
     
     window.location.href = url;
     }
-    </script>
+</script>
+    
 <br>
+
 
 <select id="surface-select">   <!-- onchange="changeSurface()"> -->
    
