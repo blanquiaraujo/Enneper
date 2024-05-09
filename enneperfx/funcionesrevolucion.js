@@ -566,7 +566,7 @@ export function changeSurface() {
       }, 200, 200);
     
     
-    } else if (selectedSurface === 'cicloidealox') {
+    } else if (selectedSurface === 'cicloidealrevox') {
 
         // Create the Airy surface geometry
             geometry = new THREE.ParametricGeometry((u, v, target) => {

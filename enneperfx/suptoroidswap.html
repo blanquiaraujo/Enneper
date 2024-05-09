@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enneper Full Experience </title>
+        <!-- Otras etiquetas head... -->
+        <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
+        <!-- Otras etiquetas head... -->
+    <link href="./assets/stylesconstruccion.css" rel="stylesheet" />
+
+    <style>
+      body {
+        background-image: url('./assets/bg.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Esto fija la imagen de fondo */
+      }
+      .imagen {
+        max-width: 14%; /* Establece el ancho máximo de la imagen al 100% del contenedor */
+        height: auto; /* Hace que la altura se ajuste automáticamente para mantener la proporción */
+      }
+    </style>
+
+  </head>
+  
+<div class="background"></div>
+<div id="textoEnneperFX">
+      EnneperFX   © arauxodev
+</div>
+
+<div id="textoAyuda">
+   Axuda
+</div>
+<div class="divAbsolute">
+
+
+<select id="opciones" onchange="redireccionar()">
+  <option value="mobile">Enneper Mobile</option>
+  <option value="miscelanea">Miscelanea</option>
+  <option value="revolucion">Revolución</option>
+  <option value="sphehar">Armónicos Esféricos</option>
+  <option value="tubos">Tubos</option>
+  <option value="implicitas" selected>Implícitas</option>
+  <option value="curvasplanas">Curvas Planas</option>
+  <option value="suptoroid" selected>Supertoroides</option>
+  <option value="supelip">Superelipsoides</option>
+</select>
+
+<script>
+  function redireccionar() {
+  var opcion = document.getElementById("opciones").value;
+  var url;
+
+  switch (opcion) {
+      case "mobile":
+      url = "./index.html";
+      break;
+      case "miscelanea":
+      url = "./miscelanea.html";
+      break;
+      case "revolucion":
+      url = "./revolucion.html";
+      break;
+      case "sphehar":
+      url = "./sphehar.html";
+      break;
+      case "tubos":
+      url = "./tubos.html";
+      break;
+      case "implicitas":
+      url = "./implicitas.html";
+      break;
+      case "curvasplanas":
+      url = "./curvasplanas.html";
+      break;
+      case "suptoroid":
+      url = "./suptoroid.html";
+      break;
+      case "supelip":
+      url = "./supelip.html";
+      break;
+      default:
+      url = "./index.html"; // Puedes establecer una URL predeterminada aquí
+  }
+
+  window.location.href = url;
+  }
+</script>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<img src="./assets/enconstruccion.jpg" alt="En Construccion" class="imagen">
+
+
+
+  </body>
+</html>

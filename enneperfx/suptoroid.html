@@ -1,105 +1,170 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Enneper Full Experience </title>
-        <!-- Otras etiquetas head... -->
-        <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
-        <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
-        <!-- Otras etiquetas head... -->
-    <link href="./assets/stylesconstruccion.css" rel="stylesheet" />
+    <head>
+        <meta charset="UTF-8"> 
 
-    <style>
-      body {
-        background-image: url('./assets/bg.jpeg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-attachment: fixed; /* Esto fija la imagen de fondo */
-      }
-      .imagen {
-        max-width: 14%; /* Establece el ancho máximo de la imagen al 100% del contenedor */
-        height: auto; /* Hace que la altura se ajuste automáticamente para mantener la proporción */
-      }
-    </style>
-
-  </head>
-  
-<div class="background"></div>
+        <meta name="viewport" content="width=device-width , user-scalable=no"> 
+        
+        <title>Enneper Full Experience </title>
+        <link rel="stylesheet" href="styles.css"> <!-- Enlaza tu archivo CSS externo aquí -->
+    </head>
+<body>
 <div id="textoEnneperFX">
-      EnneperFX   © arauxodev
+        EnneperFX   © arauxodev
 </div>
-
+   
 <div id="textoAyuda">
-   Axuda
+     Axuda
 </div>
 <div class="divAbsolute">
 
-
 <select id="opciones" onchange="redireccionar()">
-  <option value="mobile">Enneper Mobile</option>
-  <option value="miscelanea">Miscelanea</option>
-  <option value="revolucion">Revolución</option>
-  <option value="sphehar">Armónicos Esféricos</option>
-  <option value="tubos">Tubos</option>
-  <option value="implicitas" selected>Implícitas</option>
-  <option value="curvasplanas">Curvas Planas</option>
-  <option value="suptoroid" selected>Supertoroides</option>
-  <option value="supelip">Superelipsoides</option>
+    <option value="mobile">Enneper Mobile</option>
+    <option value="miscelanea">Miscelanea</option>
+    <option value="revolucion">Revolución</option>
+    <option value="sphehar">Armónicos Esféricos</option>
+    <option value="tubos">Tubos</option>
+    <option value="implicitas">Implícitas</option>
+    <option value="curvasplanas">Curvas Planas</option>
+    <option value="suptoroid" selected>Supertoroides</option>
+    <option value="supelip">Superelipsoides</option>
+</select>
+    
+<script>
+    function redireccionar() {
+    var opcion = document.getElementById("opciones").value;
+    var url;
+    
+    switch (opcion) {
+        case "mobile":
+        url = "./index.html";
+        break;
+        case "miscelanea":
+        url = "./miscelanea.html";
+        break;
+        case "revolucion":
+        url = "./revolucion.html";
+        break;
+        case "sphehar":
+        url = "./sphehar.html";
+        break;
+        case "tubos":
+        url = "./tubos.html";
+        break;
+        case "implicitas":
+        url = "./implicitas.html";
+        break;
+        case "curvasplanas":
+        url = "./curvasplanas.html";
+        break;
+        case "suptoroid":
+        url = "./suptoroid.html";
+        break;
+        case "supelip":
+        url = "./supelip.html";
+        break;
+        default:
+        url = "./index.html"; // Puedes establecer una URL predeterminada aquí
+    }
+    
+    window.location.href = url;
+    }
+</script>
+    
+<br>
+
+
+<select id="surface-select">   <!-- onchange="changeSurface()"> -->
+   
+    <option value="0.2|0.2">Supertoroide 1/5-1/5</option>
+    <option value="1|0.2">Supertoroide 1-1/5</option>
+    <option value="2|0.2">Supertoroide 2-1/5</option>
+    <option value="3|0.2">Supertoroide 3-1/5</option>
+
+    <option value="0.2|1">Supertoroide 1/5-1</option>
+    <option value="1|1">Supertoroide 1-1</option>
+    <option value="2|1">Supertoroide 2-1</option>
+    <option value="3|1">Supertoroide 3-1</option>
+
+    <option value="0.2|2">Supertoroide 1/5-2</option>
+    <option value="1|2">Supertoroide 1-2</option>
+    <option value="2|2">Supertoroide 2-2</option>
+    <option value="3|2">Supertoroide 3-2</option>
+
+    <option value="0.2|3">Supertoroide 1/5-3</option>
+    <option value="1|3">Supertoroide 1-3</option>
+    <option value="2|3">Supertoroide 2-3</option>
+    <option value="3|3">Supertoroide 3-3</option>
+
 </select>
 
+<!-- Combo box for selecting materials -->
+<select id="material-select">  <!-- onchange="changeMaterial()"> -->
+    <option value="wireframe" selected>Wireframe</option>
+    <option value="wireframe2">Wireframe Clásico</option>
+    <option value="basico">Material Básico</option>
+    <option value="textura">Material Textura</option>
+    <option value="basicoazul">Básico Azul</option>
+</select>
+
+<!-- Combo box for selecting textures -->
+<select id="texture-select" disabled> <!-- onchange="changeTexture()"> -->
+    <option value="Julieta.jpg">Iuiu</option>
+    <option value="Perfil.jpg">Perfil</option>
+    <option value="Avion.jpg">Avion</option>
+    <!-- Agrega aquí las opciones para todas las imágenes disponibles en la carpeta "textures" -->
+</select>
+</div>
 <script>
-  function redireccionar() {
-  var opcion = document.getElementById("opciones").value;
-  var url;
+    // Obtener el elemento de texto de ayuda por su ID
+    var textoAyuda = document.getElementById("textoAyuda");
+    
+    // Función para mostrar el alert al hacer clic en el texto
+    textoAyuda.addEventListener('click', function() {
+        alert("Axuda \n\n Movementos : \n  1 Dedo e Move : Xira  \n  2 dedos e Move : Traslada \n  Separa 2 dedos : Zoom \n\n Elixe nos menus desplegables as distintas Superficies e os Tipos de Vista e vai cambiando os valores" ) 
+        });
 
-  switch (opcion) {
-      case "mobile":
-      url = "./index.html";
-      break;
-      case "miscelanea":
-      url = "./miscelanea.html";
-      break;
-      case "revolucion":
-      url = "./revolucion.html";
-      break;
-      case "sphehar":
-      url = "./sphehar.html";
-      break;
-      case "tubos":
-      url = "./tubos.html";
-      break;
-      case "implicitas":
-      url = "./implicitas.html";
-      break;
-      case "curvasplanas":
-      url = "./curvasplanas.html";
-      break;
-      case "suptoroid":
-      url = "./suptoroid.html";
-      break;
-      case "supelip":
-      url = "./supelip.html";
-      break;
-      default:
-      url = "./index.html"; // Puedes establecer una URL predeterminada aquí
-  }
+    // Función para cambiar el color del texto al pasar el ratón sobre él
+    textoAyuda.addEventListener('mouseover', function() {
+        textoAyuda.style.color = 'green';
+    });
 
-  window.location.href = url;
-  }
+    // Función para restaurar el color del texto cuando el ratón sale de él
+    textoAyuda.addEventListener('mouseout', function() {
+        textoAyuda.style.color = 'white';
+    });
 </script>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<div id="canvas-container">
+    <script src="Three.js"></script>
+    <script type="module" src="funcionessuptoroid.js"></script>
+    <script type="module">
+        import { OrbitControls }  from './orbitcontrols.js';
+        import { changeSurface , init , animate , changeMaterial , 
+                 changeTexture ,onWindowResize , mostrarComboTextura }  from './funcionessuptoroid.js';
+        
+        let scene, camera, renderer;
+        let surfaceMesh;
+        let isAnimationPaused = false;
+        let animationId;
+ 
+        var primerSelect = document.getElementById("primerSelect");
+        var segundoSelect = document.getElementById("segundoSelect");
+        
+        // Initialize Three.js scene
+        // Start the animation
+        init();
+        animate();
+   //     scene.fog = null;
+        // Call changeMaterial function when the selection changes
+        document.getElementById("surface-select").addEventListener("change", changeSurface);
 
-<img src="./assets/enconstruccion.jpg" alt="En Construccion" class="imagen">
+        // Call changeMaterial function when the selection changes
+        document.getElementById("material-select").addEventListener("change", changeMaterial);
 
-
-
-  </body>
+        // Call changeMaterial function when the selection changes
+        document.getElementById("texture-select").addEventListener("change", changeTexture);
+</script>
+</div>
+</body>
 </html>
