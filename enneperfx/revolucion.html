@@ -122,22 +122,25 @@
 
 <div id="canvas-container">
     <script src="Three.js"></script>
-    <script type="module" src="funciones.js"></script>
+    <script type="module" src="funcionesrevolucion.js"></script>
     <script type="module">
         import { OrbitControls }  from './orbitcontrols.js';
         import { changeSurface , init , animate , changeMaterial , 
-                 changeTexture ,onWindowResize , mostrarComboTextura }  from './funciones.js';
+                 changeTexture ,onWindowResize , mostrarComboTextura }  from './funcionesrevolucion.js';
         
         let scene, camera, renderer;
         let surfaceMesh;
         let isAnimationPaused = false;
         let animationId;
  
+        
+    
         var primerSelect = document.getElementById("primerSelect");
         var segundoSelect = document.getElementById("segundoSelect");
         
         // Initialize Three.js scene
         // Start the animation
+        
         init();
         animate();
    //     scene.fog = null;

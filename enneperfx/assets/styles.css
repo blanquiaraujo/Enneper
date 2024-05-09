@@ -1,0 +1,49 @@
+body {
+    color: white;
+    font-family: 'Verdana', sans-serif; 
+    background-color: black;
+    font-size: 12px;
+    text-decoration-color: aliceblue;
+    margin: 0;
+    cursor: crosshair;
+  }
+  select {
+    color: white;
+    text-decoration-color: white;
+    background-color: black;
+    font-family: 'Verdana', sans-serif; /* Usa Verdana como fuente */
+    font-size: 12px; /* Establece el tamaño de la fuente en 30 pixeles */
+    cursor: pointer;
+  }
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+    /* Estilo para el texto */
+  #textoAyuda {
+    position: absolute; /* Establece la posición absoluta */
+    right: 0; /* Alinea la div a la derecha */
+    top: 0;
+    width: 50px;
+    color: white; /* Color del texto por defecto */
+    cursor: help; /* Cambia el cursor a una mano cuando se pasa por encima */
+  }
+  #textoEnneperFX {
+    position: absolute; /* Establece la posición absoluta */
+    left: 0; /* Alinea la div a la derecha */
+    top: 0;
+    width: auto;
+    color: white; /* Color del texto por defecto */
+    cursor: crosshair; /* Cambia el cursor a una mano cuando se pasa por encima */
+  }
+  .divAbsolute {
+    position: absolute;
+    top: 22px;
+    width: 100%; /* Ancho deseado de la div */
+    text-align: center;
+  }
+  /* Estilo para la div centrada horizontalmente */
+ 
+
+
+
