@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armonicos esfericos en Three.js</title>
+    <!-- Incluimos Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+
+<body>
+    <!-- Creamos un contenedor para la visualización -->
+    <div id="container"></div>
+
+    <script>
+        // Inicializamos Three.js
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement); // Adjuntamos al cuerpo del documento
+
+/*
+            var m0 = 1;
+            var m1 = 4;
+            var m2 = 0;
+            var m3 = 0;
+            var m4 = 2;
+            var m5 = 6;
+            var m6 = 2;
+            var m7 = 1;
+  */     
+ 
+            var m0i = 1;
+            var m1i = 4;
+            var m2i = 0;
+            var m3i = 0;
+            var m4i = 2;
+            var m5i = 6;
+            var m6i = 2;
+            var m7i = 1;
+       
+ 
+
+
+
+
+        const surfaceGeometry = new THREE.ParametricGeometry((q, j, vec) => {
+
+            var scale = 1.0;
+
+            
+            /*
+
+   //         var m0 = 1;
+            var m1 = 4;
+            var m2 = 0;
+            var m3 = 0;
+            var m4 = 2;
+            var m5 = 6;
+            var m6 = 2;
+            var m7 = 1;
+       */ 
+            var m0 = parseInt(m0i);
+            var m1 = parseInt(m1i);
+            var m2 = parseInt(m2i);
+            var m3 = parseInt(m3i);
+            var m4 = parseInt(m4i);
+            var m5 = parseInt(m5i);
+            var m6 = parseInt(m6i);
+            var m7 = parseInt(m7i);
+
+//            alert(m1+1);  
+/*
+
+        var m0 = parseFloat(m0i);
+        var m1 = parseFloat(m1i);
+        var m2 = parseFloat(m2i);
+        var m3 = parseFloat(m3i);
+        var m4 = parseFloat(m4i);
+        var m5 = parseFloat(m5i);
+        var m6 = parseFloat(m6i);
+        var m7 = parseFloat(m7i);
+    
+*/             
+            q = q * 2 * Math.PI;
+            j = j * 2 * Math.PI;
+
+            var x = scale * (Math.sin(m0 * j) ** m1 + Math.cos(m2 * j) ** m3 
+                    + Math.sin(m4 * q) ** m5 + Math.cos(m6 * q) ** m7) * Math.cos(q) * Math.sin(j);
+            var y = scale * (Math.sin(m0 * j) ** m1 + Math.cos(m2 * j) ** m3 
+                    + Math.sin(m4 * q) ** m5 + Math.cos(m6 * q) ** m7) * Math.cos(j);
+            var z = scale * (Math.sin(m0 * j) ** m1 + Math.cos(m2 * j) ** m3 
+                    + Math.sin(m4 * q) ** m5 + Math.cos(m6 * q) ** m7) * Math.sin(q) * Math.sin(j);
+            
+            /*
+            var x = scale * Math.sign(Math.cos(q)) * Math.pow(Math.abs(Math.cos(q)), a) * (r0 + r1 * Math.sign(Math.cos(f)) * Math.pow(Math.abs(Math.cos(f)), b));
+            var y = scale * Math.sign(Math.sin(q)) * Math.pow(Math.abs(Math.sin(q)), a) * (r0 + r1 * Math.sign(Math.cos(f)) * Math.pow(Math.abs(Math.cos(f)), b));
+            var z = scale * r1 * Math.sign(Math.sin(f)) * Math.pow(Math.abs(Math.sin(f)), b);
+            */ 
+            vec.set(x, y, z); // Usamos vec para asignar los valores de x, y, z
+        }, 450, 450); // Ampliamos el rango de los parámetros q y f
+    
+        const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true });
+        const surface = new THREE.Mesh(surfaceGeometry, material);
+        scene.add(surface);
+    
+        // Configuramos la cámara
+        camera.position.z = 5;
+
+        // Renderizamos la escena
+        function animate() {
+            requestAnimationFrame(animate);
+            surface.rotation.z += 0.01; // Cambiamos la rotación aquí
+            surface.rotation.x += 0.01; // Cambiamos la rotación aquí
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+
+    </script>
+</body>
+</html>
