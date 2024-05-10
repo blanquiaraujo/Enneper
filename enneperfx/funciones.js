@@ -1,5 +1,5 @@
 import { OrbitControls }  from './orbitcontrols.js';
-
+ 
 let scene, camera, renderer;
 let surfaceMesh;
 let isAnimationPaused = false;
@@ -159,6 +159,128 @@ export function changeSurface() {
             target.set(x, y, z);
 
         }, 100, 100);
+
+
+    } else if (selectedSurface === 'kleinclasica') {
+        // Create the Botella de Klein Clasica surface geometry
+    //    geometry = new THREE.BoxGeometry(2.5,2.5,2.5);
+        
+           // Create the Klein surface geometry
+        geometry = new THREE.ParametricGeometry((q, j, target) => {
+            const scale = 0.68;
+
+            const e = 1.0;
+            const f = 2.0;
+
+            // Limit q and j to the range (-PI, 30) y (-PI, PI)
+            q = (30 + Math.PI )*q - Math.PI;
+            j = (j - 0.5) * 2 * Math.PI;
+
+/*
+            x[e,f](q ,j ) = If[q <0,{f*Sin[q]/2,
+            (-e-f/2+f*Cos[q]/2)*Cos[j],
+            (e+f/2-f*Cos[q]/2)*Sin[j]},
+            {10*Sin[0.105*q]+2*(e+0.033*f*q)*
+            (Cos[0.105*q]+4*Cos[0.21*q])*Cos[j]
+            *(Sin[0.105*q]+2*Sin[0.21*q])/
+            Sqrt[100*Cos[0.105*q]2+
+            4*(Cos[0.105*q]+4*Cos[0.21*q])2 *(Sin[0.105*q]+2*Sin[0.21*q])2],
+            (Sin[0.105*q]+2*Sin[0.21*q])2-
+            (10*(e+0.033*f*q)*Cos[0.105*q]*
+            Cos[j])/Sqrt[100*Cos[0.105*q]2+
+            4*(Cos[0.105*q]+4*Cos[0.21*q])2*
+            (Sin[0.105*q]+2*Sin[0.21*q])2],
+            (e+0.033*f*q)*Sin[j]}]
+            
+            Gráfica:e=1,f=2,-p£q£30,-p£j£p
+
+
+
+*/
+
+            const x = scale * (3 + Math.cos(u / 2) * Math.sin(v) - Math.sin(u / 2) * Math.sin(2 * v)) * Math.cos(u);
+            const y = scale * (3 + Math.cos(u / 2) * Math.sin(v) - Math.sin(u / 2) * Math.sin(2 * v)) * Math.sin(u);
+            const z = scale * (Math.sin(u / 2) * Math.sin(v) + Math.cos(u / 2) * Math.sin(2 * v));
+
+            target.set(x, y, z);
+
+        }, 100, 100);
+
+ 
+
+    } else if  (selectedSurface === 'kleinclasicaWRI') {
+        // Create the Botella de Klein Clasica surface geometry
+    //    geometry = new THREE.BoxGeometry(2.5,2.5,2.5);
+        
+           // Create the Klein surface geometry
+        geometry = new THREE.ParametricGeometry((q, j, target) => {
+            const scale = 0.168/1.2;
+            
+            // Limit q and j to the range (-PI, 30) y (-PI, PI)
+    
+            q = (30 + Math.PI )*q - Math.PI;
+            j = (j - 0.5) * 2 * Math.PI;
+
+         /*   
+            if (Math.PI < q && q  < (-2 * Math.PI)) {
+
+                const x = scale * (6 * Math.cos(q) * (1 + Math.sin(q)) + 4 * (1 - Math.cos(q) / 2) * Math.cos(j+Math.PI));
+                const y = scale * (16 * Math.sin(q));
+                const z = scale * (4 * (1 - Math.cos(q) / 2) * Math.sin(j));
+            
+            } else {
+            
+                const x = scale * (6 * Math.cos(q) * (1 + Math.sin(q)) + 4 * (1 - Math.cos(q) / 2) * Math.cos(q) * Math.cos(j));
+                const y = scale * (16 * Math.sin(q) + 4 * (1 - Math.cos(q) / 2) * Math.sin(q) * Math.cos(j));
+                const z = scale * (4 * (1 - Math.cos(q) / 2) * Math.sin(j));
+            
+            }
+*/
+            const x = scale * (6 * Math.cos(q) * (1 + Math.sin(q)) + 4 * (1 - Math.cos(q) / 2) * Math.cos(q) * Math.cos(j));
+            const y = scale * (16 * Math.sin(q) + 4 * (1 - Math.cos(q) / 2) * Math.sin(q) * Math.cos(j));
+            const z = scale * (4 * (1 - Math.cos(q) / 2) * Math.sin(j));
+            
+        
+            target.set(x, y, z);
+
+        }, 200, 200);
+
+    } else if (selectedSurface === 'kleinbanchoff') {
+
+        // Create the Airy surface geometry
+                geometry = new THREE.ParametricGeometry((q, j, target) => {
+                   
+                    const scale = 0.268;
+                    const a = 10;
+                    const b = 3;
+                    const c = 2;
+
+                    q = q * 2 * b * c * Math.PI;
+                    j = j * 4 * Math.PI;
+
+
+                
+                    const x = scale * (Math.cos(q/c) * Math.cos(q/b) * (a + Math.cos(j)) +
+                            Math.sin(q/b) * Math.sin(j) * Math.cos(j));
+                    const y = scale * (Math.sin(q/c) * Math.cos(q/b) * (a + Math.cos(j)) +
+                            Math.sin(q/b) * Math.sin(j) * Math.cos(j));
+                    const z = scale * ((-1) * Math.sin(q/b) * (a + Math.cos(j)) +
+                            Math.cos(q/b) * Math.sin(j) * Math.cos(j));
+                    /*
+                    x[a,b,c][q ,j ] =
+                    {Cos[q /c] Cos[q /b](a + Cos[j ]) +
+                        Sin[q /b]Sin[j ]Cos[j ],
+                        Sin[q /c]Cos[q /b](a + Cos[j ]) +
+                        Sin[q /b]Sin[j ]Cos[j ],
+                         - Sin[q /b](a + Cos[j ]) +
+                         Cos[q /b]Sin[j ]Cos[j ])}
+
+
+
+  */      
+                    target.set(x, y, z);
+                }, 600, 600);
+         
 
     } else if (selectedSurface === 'airy') {
 
