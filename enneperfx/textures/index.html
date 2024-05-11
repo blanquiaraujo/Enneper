@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width , user-scalable=no"> 
+        
+        <title>Enneper Full Experience </title>
+        <link rel="stylesheet" href="styles.css"> <!-- Enlaza tu archivo CSS externo aquí -->
+    </head>
+<body>
+<div id="textoEnneperFX">
+        EnneperFX   © arauxodev
+</div>
+   
+<div id="textoAyuda">
+     Axuda
+</div>
+<div class="divAbsolute">
+
+
+<select id="opciones" onchange="redireccionar()">
+    <option value="mobile" selected>Enneper Mobile</option>
+    <option value="miscelanea">Miscelanea</option>
+    <option value="revolucion">Revolución</option>
+    <option value="sphehar">Harmónicos Esféricos</option>
+    <option value="tubos">Tubos</option>
+    <option value="implicitas">Implícitas</option>
+    <option value="curvasplanas">Curvas Planas</option>
+    <option value="suptoroid">Supertoroides</option>
+    <option value="supelip">Superelipsoides</option>
+</select>
+    
+<script>
+    function redireccionar() {
+    var opcion = document.getElementById("opciones").value;
+    var url;
+    
+    switch (opcion) {
+        case "mobile":
+        url = "./index.html";
+        break;
+        case "miscelanea":
+        url = "./miscelanea.html";
+        break;
+        case "revolucion":
+        url = "./revolucion.html";
+        break;
+        case "sphehar":
+        url = "./sphehar.html";
+        break;
+        case "tubos":
+        url = "./tubos.html";
+        break;
+        case "implicitas":
+        url = "./implicitas.html";
+        break;
+        case "curvasplanas":
+        url = "./curvasplanas.html";
+        break;
+        case "suptoroid":
+        url = "./suptoroid.html";
+        break;
+        case "supelip":
+        url = "./supelip.html";
+        break;
+        default:
+        url = "./index.html"; // Puedes establecer una URL predeterminada aquí
+    }
+    
+    window.location.href = url;
+    }
+</script>
+    
+<br>
+
+
+
+<select id="surface-select">   <!-- onchange="changeSurface()"> -->
+    <option value="toroboy">Toro de Boy</option>
+    <option value="clifford">Toro de Clifford</option>
+    <option value="supenneper">Sup. Enneper</option>
+    <option value="supscherk">Sup. Scherk</option>
+    <option value="estanque">Onda Estanque</option>
+    <option value="klein">Botella de Klein</option>
+    <option value="kleinclasicaWRI">Klein Clasica W.R.I.</option>
+    <option value="kleinbanchoff">Bot. Klein Banchoff</option>
+    
+    <option value="mobius">Banda Mobius</option>
+    <option value="mobiuscirc">Mobius Circular</option>
+    <option value="airy">Sombreiro Mexicano</option>
+    <option value="sherlock">Sombreiro Sherlock</option>
+    <option value="arconwallis">Arista Conica Wallis</option>
+ 
+    <option value="curvasplanascardioide">Cardioide</option>
+    <option value="curvasplanasastroide">Astroide</option>
+    <option value="curvasplanascicloidealargada">Cicloide Alargada</option>
+    <option value="tubosviviani">Tubos Viviani</option>
+
+    <option value="cicloidealox">Cicloide Al. OX</option>
+    <option value="cicloidealoz">Cicloide Al. OZ</option>
+
+    <option value="cicloideorox">Cicloide Or. OX</option>
+    <option value="cicloideoroz">Cicloide Or. OZ</option>
+
+    <option value="bifoliaox">Bifolia Rev. OX</option>
+    <option value="bifoliaoz">Bifolia Rev. OZ</option>
+</select>
+
+<!-- Combo box for selecting materials -->
+<select id="material-select">  <!-- onchange="changeMaterial()"> -->
+    <option value="wireframe" selected>Wireframe</option>
+    <option value="wireframe2">Wireframe Clásico</option>
+    <option value="basico">Material Básico</option>
+    <option value="textura">Material Textura</option>
+    <option value="basicoazul">Básico Azul</option>
+</select>
+
+<!-- Combo box for selecting textures -->
+<select id="texture-select" disabled> <!-- onchange="changeTexture()"> -->
+    <option value="elena.jpg">Elena Abal</option>
+    <option value="agua.jpg">Agua</option>
+    <option value="aguaazul.jpg">Auga Azul</option>
+    <option value="aguaazul2.jpg">Auga Azul 2</option>
+    <option value="aguametal.jpg">Auga Metal</option>
+    <option value="aguaroja.jpg">Auga Vermella</option>
+    <option value="azul.jpg">Azul</option>
+    <option value="circulos.jpg">Circulos</option>
+    <option value="colmenagris.jpg">Colmea Gris</option>
+    <option value="colmenairis.jpg">Colmea Iris</option>
+    <option value="colmenaverde.jpg">Colmea Verde</option>
+    <option value="cyberpunk.jpg">Cyberpunk</option>
+    <option value="eleganteazul.jpg">Elegante Azul</option>
+    <option value="elegantegris.jpg">Elegante Gris</option>
+    <option value="escher.jpg">Escher</option>
+    <option value="gotas.jpg">Gotas</option>
+    <option value="metal.jpg">Metal</option>
+    <option value="metal2.jpg">Metal 2</option>
+    <option value="metal3.jpg">Metal 3</option>
+    <option value="metal4.jpg">Metal 4</option>
+    <option value="metalquake.jpg">Metal Quake</option>
+   <option value="oro.jpg">Ouro</option>
+   <option value="oromalla.jpg">Ouro malla</option>
+   <option value="piscinaverde.jpg">Piscina</option>
+   <option value="quake.jpg">Quake</option>
+   <option value="rainbow.jpg">Rainbow</option>
+   <option value="rejametalica.jpg">Reixa</option>
+   <option value="suelometal.jpg">Chan 1</option>
+   <option value="suelometal2.jpg">Chan 2</option>
+   <option value="suelometal3.jpg">Chan 3</option>
+   <option value="suelometal4.jpg">Chan 4</option>
+   <option value="suelometal5.jpg">Chan 5</option>
+   <option value="techno.jpg">Techno</option>
+  
+  
+   <!-- Agrega aquí las opciones para todas las imágenes disponibles en la carpeta "textures" -->
+</select>
+</div>
+<script>
+    // Obtener el elemento de texto de ayuda por su ID
+    var textoAyuda = document.getElementById("textoAyuda");
+    
+    // Función para mostrar el alert al hacer clic en el texto
+    textoAyuda.addEventListener('click', function() {
+        alert("Axuda \n\n Movementos : \n  1 Dedo e Move : Xira  \n  2 dedos e Move : Traslada \n  Separa 2 dedos : Zoom \n\n Elixe nos menus desplegables as distintas Superficies e os Tipos de Vista e vai cambiando os valores" ) 
+        });
+
+    // Función para cambiar el color del texto al pasar el ratón sobre él
+    textoAyuda.addEventListener('mouseover', function() {
+        textoAyuda.style.color = 'green';
+    });
+
+    // Función para restaurar el color del texto cuando el ratón sale de él
+    textoAyuda.addEventListener('mouseout', function() {
+        textoAyuda.style.color = 'white';
+    });
+</script>
+
+<div id="canvas-container">
+    <script src="Three.js"></script>
+    <script type="module" src="funciones.js"></script>
+    <script type="module">
+        import { OrbitControls }  from './orbitcontrols.js';
+        import { changeSurface , init , animate , changeMaterial , 
+                 changeTexture ,onWindowResize , mostrarComboTextura }  from './funciones.js';
+        
+        let scene, camera, renderer;
+        let surfaceMesh;
+        let isAnimationPaused = false;
+        let animationId;
+ 
+        var primerSelect = document.getElementById("primerSelect");
+        var segundoSelect = document.getElementById("segundoSelect");
+        
+        // Initialize Three.js scene
+        // Start the animation
+        init();
+        animate();
+   //     scene.fog = null;
+        // Call changeMaterial function when the selection changes
+        document.getElementById("surface-select").addEventListener("change", changeSurface);
+
+        // Call changeMaterial function when the selection changes
+        document.getElementById("material-select").addEventListener("change", changeMaterial);
+
+        // Call changeMaterial function when the selection changes
+        document.getElementById("texture-select").addEventListener("change", changeTexture);
+</script>
+</div>
+</body>
+</html>
