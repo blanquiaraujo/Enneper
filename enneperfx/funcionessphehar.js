@@ -76,7 +76,7 @@ export function init() {
         var z = scale * r1 * Math.sign(Math.sin(f)) * Math.pow(Math.abs(Math.sin(f)), b);
         */ 
         vec.set(x, y, z); // Usamos vec para asignar los valores de x, y, z
-    }, 250, 250); // Ampliamos el rango de los parámetros q y f
+    }, 150, 150); // Ampliamos el rango de los parámetros q y f
 
 
 
