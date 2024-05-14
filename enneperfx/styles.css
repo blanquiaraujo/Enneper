@@ -1,4 +1,4 @@
-body {
+body { 
     color: white;
     font-family: 'Verdana', sans-serif; 
     background-color: black;
@@ -32,9 +32,10 @@ body {
     position: absolute; /* Establece la posición absoluta */
     left: 0; /* Alinea la div a la derecha */
     top: 0;
-    width: auto;
+    width: 200px;
+    text-decoration: none;
     color: white; /* Color del texto por defecto */
-    cursor: crosshair; /* Cambia el cursor a una mano cuando se pasa por encima */
+    cursor: help; /* Cambia el cursor a una mano cuando se pasa por encima */
   }
   .divAbsolute {
     position: absolute;
