@@ -73,7 +73,7 @@ export function init() {
    
                // Asignar las coordenadas a la geometría
        target.set(x, y, z);
-   }, 50, 50);
+   }, 150, 150);
    
   /* 
     const geometry = new THREE.ParametricGeometry((q, f, vec) => {
@@ -219,7 +219,7 @@ export function changeSurface() {
 
             // Asignar las coordenadas a la geometría
     target.set(x, y, z);
-}, 50, 50);
+}, 150, 150);
 
 
 
