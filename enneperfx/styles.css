@@ -35,8 +35,17 @@ body {
     width: 200px;
     text-decoration: none;
     color: white; /* Color del texto por defecto */
-    cursor: help; /* Cambia el cursor a una mano cuando se pasa por encima */
+    transition: color 0.3s; /* Agregar transición para un cambio suave de color */
+
+    /*cursor: help;*/ /* Cambia el cursor a una mano cuando se pasa por encima */
   }
+  #textoEnneperFX:hover {
+    color: cyan; /* Cambiar el color del texto a verde */
+    text-decoration: wavy;
+  }
+
+
+
   .divAbsolute {
     position: absolute;
     top: 22px;
