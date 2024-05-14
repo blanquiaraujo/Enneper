@@ -1,5 +1,5 @@
 import { OrbitControls }  from './orbitcontrols.js';
- 
+
 let scene, camera, renderer;
 let surfaceMesh; 
 let isAnimationPaused = false;
@@ -44,32 +44,59 @@ export function init() {
     //scene.fog = null;
 
 
-        
-    const geometry = new THREE.ParametricGeometry((u, v, vec) => {
-    
-        var scale = 2.7;
 
     
-        const phi = u *2* Math.PI;
-        const theta = v * 2 * Math.PI;
+        // Crear una nueva geometría
+        const geometry = new THREE.ParametricGeometry(function(u, v, target) {
+    
+            var scale = 1.90;
+           // Definir parámetros de la superficie
+           var rx = 1.0; // Radio en el eje x
+           var ry = 1.0; // Radio en el eje y
+           var rz = 1.0; // Radio en el eje z
+           var a = 0.2;  // Parámetro a
+           var b = 0.2;  // Parámetro b
+   
+       
+           var phi = u * Math.PI * 2;  // Convertir u en un ángulo entre 0 y 2pi
+           var theta = v * Math.PI * 2;  // Convertir v en un ángulo entre 0 y 2pi
+   
+               
+           const x = scale * rx * Math.sign(Math.cos(phi)) 
+           * Math.pow(Math.abs(Math.cos(phi)), a) * Math.sign(Math.cos(theta))
+            * Math.pow(Math.abs(Math.cos(theta)), b);
+           const y = scale * ry * Math.sign(Math.cos(phi))
+            * Math.pow(Math.abs(Math.cos(phi)), a) * Math.sign(Math.sin(theta)) 
+            * Math.pow(Math.abs(Math.sin(theta)), b);
+           const z = scale * rz * Math.sign(Math.sin(phi)) 
+           * Math.pow(Math.abs(Math.sin(phi)), a);
+   
+               // Asignar las coordenadas a la geometría
+       target.set(x, y, z);
+   }, 50, 50);
+   
+  /* 
+    const geometry = new THREE.ParametricGeometry((q, f, vec) => {
 
-        const rx = 1.0; // Radio en el eje x
-        const ry = 1.0; // Radio en el eje y
-        const rz = 1.0; // Radio en el eje z
-    
-        const a = 1.0; // Parámetro de forma en el eje x
-        const b = 0.2; // Parámetro de forma en el eje y
-    
-        const x = scale * rx * Math.sign(Math.cos(phi)) * Math.pow(Math.abs(Math.cos(phi)), 2/a) * Math.sign(Math.cos(theta)) * Math.pow(Math.abs(Math.cos(theta)), 2/b);
-        const y = scale * ry * Math.sign(Math.cos(phi)) * Math.pow(Math.abs(Math.cos(phi)), 2/a) * Math.sign(Math.sin(theta)) * Math.pow(Math.abs(Math.sin(theta)), 2/b);
-        const z = scale * rz * Math.sign(Math.sin(phi)) * Math.pow(Math.abs(Math.sin(phi)), 2/a);
+        var scale = 1.7;
 
-        vec.set(x, y, z);
-    }, 150, 150);
+        var a = 0.2;
+        var b = 0.2;
+        var r0 = 1.0;
+        var r1 = 0.3;
     
-    
-    
-    // Create a texture loader
+        q = q * 2 * Math.PI;
+        f = f * 2 * Math.PI;
+
+        var x = scale * Math.sign(Math.cos(q)) * Math.pow(Math.abs(Math.cos(q)), a) * (r0 + r1 * Math.sign(Math.cos(f)) * Math.pow(Math.abs(Math.cos(f)), b));
+        var y = scale * Math.sign(Math.sin(q)) * Math.pow(Math.abs(Math.sin(q)), a) * (r0 + r1 * Math.sign(Math.cos(f)) * Math.pow(Math.abs(Math.cos(f)), b));
+        var z = scale * r1 * Math.sign(Math.sin(f)) * Math.pow(Math.abs(Math.sin(f)), b);
+
+
+        vec.set(x, y, z); // Usamos vec para asignar los valores de x, y, z
+    }, 150, 150); // Ampliamos el rango de los parámetros q y f
+*/
+// Create a texture loader
     const textureLoader = new THREE.TextureLoader();
 
     // Load the texture
@@ -158,49 +185,50 @@ export function changeSurface() {
     const partes = valorSeleccionado.split('|');
     const valor1 = partes[0];
     const valor2 = partes[1];
-    var valorcomboa = parseFloat(valor1);
-    var valorcombob = parseFloat(valor2);   
-/* 
-    alert(valorcomboa);
+    var valor1f = parseFloat(valor1);
+    var valor2f = parseFloat(valor2);  
+
+
+   // alert(valor1f);
+   // alert(valor2f);
+ 
+        // Crear una nueva geometría
+    geometry = new THREE.ParametricGeometry(function(u, v, target) {
     
-    alert(valorcombob);
-*/
+         var scale = 1.90;
+        // Definir parámetros de la superficie
+        var rx = 1.0; // Radio en el eje x
+        var ry = 1.0; // Radio en el eje y
+        var rz = 1.0; // Radio en el eje z
+        var a = valor1f;  // Parámetro a
+        var b = valor2f;  // Parámetro b
 
-    geometry = new THREE.ParametricGeometry((u, v, vec) => {
+    
+        var phi = u * Math.PI * 2;  // Convertir u en un ángulo entre 0 y 2pi
+        var theta = v * Math.PI * 2;  // Convertir v en un ángulo entre 0 y 2pi
 
-            const scale = 2.0;
+            
+        const x = scale * rx * Math.sign(Math.cos(phi)) 
+        * Math.pow(Math.abs(Math.cos(phi)), a) * Math.sign(Math.cos(theta))
+         * Math.pow(Math.abs(Math.cos(theta)), b);
+        const y = scale * ry * Math.sign(Math.cos(phi))
+         * Math.pow(Math.abs(Math.cos(phi)), a) * Math.sign(Math.sin(theta)) 
+         * Math.pow(Math.abs(Math.sin(theta)), b);
+        const z = scale * rz * Math.sign(Math.sin(phi)) 
+        * Math.pow(Math.abs(Math.sin(phi)), a);
 
-            const rx = 1.0; // Radio en el eje x
-            const ry = 1.0; // Radio en el eje y
-            const rz = 1.0; // Radio en el eje z
+            // Asignar las coordenadas a la geometría
+    target.set(x, y, z);
+}, 50, 50);
 
 
-            var a = 0.2;
-            var b = 0.2;
 
-/*
-            var a = valorcomboa; // Parámetro de forma a
-            var b = valorcombob; // Parámetro de forma b
-*/
-            // Ajustamos u y v al rango [-π, π] para obtener la superficie completa
-            u = (u - 0.5) * 2 * Math.PI;
-            v = (v - 0.5) * 2 * Math.PI;
-
-            // Calculamos las coordenadas
-            const x = scale * rx * Math.sign(Math.cos(u)) * Math.pow(Math.abs(Math.cos(u)), a/b) * Math.sign(Math.cos(v)) * Math.pow(Math.abs(Math.cos(v)), a/b);
-            const y = scale * ry * Math.sign(Math.sin(u)) * Math.pow(Math.abs(Math.sin(u)), a/b) * Math.sign(Math.cos(v)) * Math.pow(Math.abs(Math.cos(v)), a/b);
-            const z = scale * rz * Math.sign(Math.sin(v)) * Math.pow(Math.abs(Math.sin(v)), a/b);
-
-        // Establecemos las coordenadas del punto
-        vec.set(x, y, z);
-    }, 150, 150);
-
-const textureLoader = new THREE.TextureLoader();
+    const textureLoader = new THREE.TextureLoader();
 
     // Load the texture
     const texture = textureLoader.load('./textures/Perfil.jpg');
 
-    // Create material with the loaded texture
+    // reate material with the loaded texture
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
 

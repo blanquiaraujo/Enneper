@@ -37,28 +37,25 @@
     
             var scale = 1.0;
         // Definir parámetros de la superficie
-        var rx = 1; // Radio en el eje x
-        var ry = 1; // Radio en el eje y
-        var rz = 1; // Radio en el eje z
-        var a = 0.2;  // Parámetro a
+        var rx = 1.0; // Radio en el eje x
+        var ry = 1.0; // Radio en el eje y
+        var rz = 1.0; // Radio en el eje z
+        var a = 3.0;  // Parámetro a
         var b = 0.2;  // Parámetro b
 
     
-    
-    
-    
-    
-            var phi = u * Math.PI * 2;  // Convertir u en un ángulo entre 0 y 2pi
-            var theta = v * Math.PI * 2;  // Convertir v en un ángulo entre 0 y 2pi
-/*
-            // Calcular las coordenadas de la superficie
-            var x = rx * Math.pow(Math.cos(q), a) * Math.pow(Math.cos(f), b);
-            var y = ry * Math.pow(Math.cos(q), a) * Math.pow(Math.sin(f), b);
-            var z = rz * Math.pow(Math.sin(q), a);
-  */   
-            const x = scale * rx * Math.sign(Math.cos(phi)) * Math.pow(Math.abs(Math.cos(phi)), 2/a) * Math.sign(Math.cos(theta)) * Math.pow(Math.abs(Math.cos(theta)), 2/b);
-        const y = scale * ry * Math.sign(Math.cos(phi)) * Math.pow(Math.abs(Math.cos(phi)), 2/a) * Math.sign(Math.sin(theta)) * Math.pow(Math.abs(Math.sin(theta)), 2/b);
-        const z = scale * rz * Math.sign(Math.sin(phi)) * Math.pow(Math.abs(Math.sin(phi)), 2/a);
+        var phi = u * Math.PI * 2;  // Convertir u en un ángulo entre 0 y 2pi
+        var theta = v * Math.PI * 2;  // Convertir v en un ángulo entre 0 y 2pi
+
+            
+        const x = scale * rx * Math.sign(Math.cos(phi)) 
+        * Math.pow(Math.abs(Math.cos(phi)), a) * Math.sign(Math.cos(theta))
+         * Math.pow(Math.abs(Math.cos(theta)), b);
+        const y = scale * ry * Math.sign(Math.cos(phi))
+         * Math.pow(Math.abs(Math.cos(phi)), a) * Math.sign(Math.sin(theta)) 
+         * Math.pow(Math.abs(Math.sin(theta)), b);
+        const z = scale * rz * Math.sign(Math.sin(phi)) 
+        * Math.pow(Math.abs(Math.sin(phi)), a);
 
             // Asignar las coordenadas a la geometría
             target.set(x, y, z);
