@@ -1,0 +1,130 @@
+<!--
+prompt de ChatGPT de OpenAI para obtener este archivo
+
+prompt1
+
+geometria diferencial dada la curva regular  A[p](t) = (p(1 + Cos[t]), p( Sin[t], 2 Sin[t/2]) 
+calcula  la ecuación de la superficie X[p][r](t,q) = A(t) + r(Cos[q] N(t) + Sin[q] B(t)) donde N(t) 
+es el vector normal principal y B(t) el vector binormal implementa el codigo javascript y representa l
+la superficie X[p][r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  de three.js 
+para t entre (-3.14159 , 3.14159) y  q entre (-3.141 , 3.141) y a =1 y r=0.14
+
+prompt2
+
+configura la  escena de three.js, agrega la malla, animalo rotando en los ejes Y y Z y dame el
+resultado final en un solo bloque de codigo en un archivo html
+
+
+-->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surface Animation</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+
+        var p = 1.0;
+        var r = 0.3;  
+        // Función para la curva A[p](t)
+        function curveA(p, t) {
+            return new THREE.Vector3(
+                p * (1 + Math.cos(t)),
+                p * Math.sin(t),
+                2 * p * Math.sin(t / 2)
+            );
+        }
+
+        // Función para el vector normal principal N(t)
+        function normalVector(t) {
+            return new THREE.Vector3(
+                Math.cos(t),
+                Math.sin(t),
+                Math.sin(t / 2)
+            ).normalize();
+        }
+
+        // Función para el vector binormal B(t)
+        function binormalVector(t) {
+            return new THREE.Vector3(
+                -Math.sin(t),
+                Math.cos(t),
+                Math.cos(t / 2)
+            ).normalize();
+        }
+
+        // Función para crear la geometría paramétrica
+        function createSurfaceGeometry(p, r) {
+            return function (u, v, target) {
+                const t = THREE.MathUtils.lerp(-Math.PI * 8, Math.PI * 8, u);
+                const q = THREE.MathUtils.lerp(-Math.PI * 8, Math.PI * 8, v);
+
+                const curvePoint = curveA(p, t);
+                const normal = normalVector(t);
+                const binormal = binormalVector(t);
+
+                const position = curvePoint.clone().add(
+                    normal.clone().multiplyScalar(r * Math.cos(q))
+                ).add(
+                    binormal.clone().multiplyScalar(r * Math.sin(q))
+                );
+
+                target.copy(position);
+            };
+        }
+
+        // Creación de la escena, cámara y renderizador
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Creación de la geometría de Three.js
+        const geometry = new THREE.ParametricGeometry(
+            createSurfaceGeometry(1, 0.14),
+            200,
+            200
+        );
+
+        // Material
+        const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+
+        // Mesh
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        // Ajusta la cámara
+        camera.position.z = 5;
+
+        // Animación
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotación en los ejes y y z
+            mesh.rotation.y += 0.01;
+            mesh.rotation.z += 0.01;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!--
+prompt de ChatGPT de OpenAI para obtener este archivo
+
+prompt1 
+
+geometria diferencial dada la curva regular  A[p](t) = (p(1 + Cos[t]), p( Sin[t], 2 Sin[t/2]) 
+calcula  la ecuación de la superficie X[p][r](t,q) = A(t) + r(Cos[q] N(t) + Sin[q] B(t)) donde 
+N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript y 
+representa la superficie X[p][r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141) y p=1.00 y r=0.24
+
+
+prompt2
+
+cconfigura la  escena de three.js, agrega la malla, animalo rotando en los ejes Y y Z y dame el 
+resultado final en un solo bloque de codigo en un archivo html
+
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surface Animation</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Configurar la escena
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Definir la curva A[p](t)
+        function curveA(p, t) {
+            return new THREE.Vector3(p * (1 + Math.cos(t)), p * Math.sin(t), 2 * Math.sin(t / 2));
+        }
+
+        // Calcular la derivada de la curva A[p](t)
+        function curveDerivativeA(p, t) {
+            return new THREE.Vector3(-p * Math.sin(t), p * Math.cos(t), Math.cos(t / 2));
+        }
+
+        // Calcular la segunda derivada de la curva A[p](t)
+        function curveSecondDerivativeA(p, t) {
+            return new THREE.Vector3(-p * Math.cos(t), -p * Math.sin(t), -0.5 * Math.sin(t / 2));
+        }
+
+        // Calcular el vector normal principal a la curva en el punto t
+        function principalNormal(p, t) {
+            let T = curveDerivativeA(p, t).normalize();
+            let T_prime = curveSecondDerivativeA(p, t);
+            return T_prime.sub(T.clone().multiplyScalar(T_prime.dot(T))).normalize();
+        }
+
+        // Calcular el vector binormal a la curva en el punto t
+        function binormal(p, t) {
+            let T = curveDerivativeA(p, t).normalize();
+            let N = principalNormal(p, t);
+            return new THREE.Vector3().crossVectors(T, N).normalize();
+        }
+
+        // Definir la función para la superficie X[p][r](t,q)
+        function surfaceX(p, r, t, q) {
+            let A = curveA(p, t);
+            let N = principalNormal(p, t);
+            let B = binormal(p, t);
+
+            let cosq = Math.cos(q);
+            let sinq = Math.sin(q);
+
+            let offset = new THREE.Vector3().addVectors(
+                N.clone().multiplyScalar(cosq),
+                B.clone().multiplyScalar(sinq)
+            ).multiplyScalar(r);
+
+            return new THREE.Vector3().addVectors(A, offset);
+        }
+
+        // Parámetros
+        let p = 1; // Parámetro 'a'
+        let r = 0.1; // Radio del tubo
+        let tMin = -8 * Math.PI;
+        let tMax = 8 * Math.PI;
+        let qMin = -8 * Math.PI;
+        let qMax = 8 * Math.PI;
+        let segments = 200;
+
+        // Crear la geometría de la superficie
+        let geometry = new THREE.ParametricGeometry((u, v, target) => {
+            let t = u * (tMax - tMin) + tMin;
+            let q = v * (qMax - qMin) + qMin;
+            let point = surfaceX(p, r, t, q);
+            target.set(point.x, point.y, point.z);
+        }, segments, segments);
+
+        // Crear el material y la malla
+        let material = new THREE.MeshNormalMaterial();
+        let mesh = new THREE.Mesh(geometry, material);
+
+        // Agregar la malla a la escena
+        scene.add(mesh);
+
+        // Configurar la animación
+        function animate() {
+            requestAnimationFrame(animate);
+            mesh.rotation.y += 0.01; // Rotación en el eje Y
+            mesh.rotation.z += 0.005; // Rotación en el eje Z
+            renderer.render(scene, camera);
+        }
+
+        // Configurar la cámara
+        camera.position.z = 5;
+
+        // Iniciar la animación
+        animate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!--
+prompt de ChatGPT de OpenAI para obtener este archivo
+
+prompt1 
+
+geometria diferencial dada la curva regular  A[p](t) = (p(1 + Cos[t]), p( Sin[t], 2 Sin[t/2]) 
+calcula  la ecuación de la superficie X[p][r](t,q) = A(t) + r(Cos[q] N(t) + Sin[q] B(t)) donde 
+N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript y 
+representa la superficie X[p][r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141) y p=1.00 y r=0.24
+
+
+prompt2
+
+cconfigura la  escena de three.js, agrega la malla, animalo rotando en los ejes Y y Z y dame el 
+resultado final en un solo bloque de codigo en un archivo html
+
+-->
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Superficie Animada en Three.js</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Configuración de la escena
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Crear la geometría de la superficie
+        const surfaceGeometry = new THREE.ParametricGeometry((u, v, target) => {
+            const p = 1.0;
+            const r = 0.24;
+            const t = u * 8 * Math.PI;
+            const q = v * 8 * Math.PI;
+            const A_t = new THREE.Vector3(p * (1 + Math.cos(t)), p * Math.sin(t), 2 * p * Math.sin(t / 2));
+            const T = A_t.clone().sub(new THREE.Vector3(p * Math.cos(t), p * Math.sin(t), p * Math.cos(t / 2) / 2)).normalize();
+            const N = new THREE.Vector3(-Math.sin(t), Math.cos(t), p * Math.cos(t / 2) / 2).normalize();
+            const B = new THREE.Vector3().crossVectors(T, N).normalize();
+            const x = A_t.x + r * (Math.cos(q) * N.x + Math.sin(q) * B.x);
+            const y = A_t.y + r * (Math.cos(q) * N.y + Math.sin(q) * B.y);
+            const z = A_t.z + r * (Math.cos(q) * N.z + Math.sin(q) * B.z);
+            target.set(x, y, z);
+        }, 100, 100);
+
+        // Crear el material
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+
+        // Crear la malla de la superficie
+        const surfaceMesh = new THREE.Mesh(surfaceGeometry, material);
+
+        // Añadir la malla a la escena
+        scene.add(surfaceMesh);
+
+        // Configuración de la animación
+        function animate() {
+            requestAnimationFrame(animate);
+            surfaceMesh.rotation.y += 0.01; // Rotación en el eje Y
+            surfaceMesh.rotation.z += 0.01; // Rotación en el eje Z
+            renderer.render(scene, camera);
+        }
+
+        // Configuración de la cámara
+        camera.position.z = 5;
+
+        // Llamar a la función de animación
+        animate();
+    </script>
+</body>
+</html>

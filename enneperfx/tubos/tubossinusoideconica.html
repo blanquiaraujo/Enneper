@@ -1,0 +1,105 @@
+<!--
+
+prompt1
+
+geometria diferencial dada la curva regular     A[p,c](t) = (c(1 + Cos[p t] )Cos[t], c(1 + Cos[p t]) Sin[t], c(1 + Cos[p t])) calcula  la ecuación de la superficie X[p][r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript y representa la superficie X[p][r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y    Gráfica para p=8, c=0.5. El radio del tubo es variable, dado por r=(1 + Cos[8 t])/20.
+
+prompt2 
+
+configura la  escena de three.js,  animalo rotando en los ejes Y y Z y dame el 
+resultado final en un solo bloque de codigo en un archivo html
+
+
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Superficie paramétrica en Three.js</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Configurar la escena
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Definir la función A(t)
+        function A(p, c, t) {
+            var x = c * (1 + Math.cos(p * t)) * Math.cos(t);
+            var y = c * (1 + Math.cos(p * t)) * Math.sin(t);
+            var z = c * (1 + Math.cos(p * t));
+            return new THREE.Vector3(x, y, z);
+        }
+
+        // Definir el vector normal principal N(t)
+        function N(p, c, t) {
+            var x = -Math.cos(t) * Math.sin(p * t);
+            var y = -Math.sin(t) * Math.sin(p * t);
+            var z = Math.cos(p * t);
+            return new THREE.Vector3(x, y, z).normalize();
+        }
+
+        // Definir el vector binormal B(t)
+        function B(p, c, t) {
+            var x = -Math.sin(t);
+            var y = Math.cos(t);
+            var z = 0;
+            return new THREE.Vector3(x, y, z).normalize();
+        }
+
+        // Definir la superficie X[p][r](t,q)
+        function X(p, c, r, t, q) {
+            var A_t = A(p, c, t);
+            var N_t = N(p, c, t);
+            var B_t = B(p, c, t);
+
+            var cosq = Math.cos(q);
+            var sinq = Math.sin(q);
+
+            var offset = new THREE.Vector3().addScaledVector(N_t, cosq * r).addScaledVector(B_t, sinq * r);
+
+            return new THREE.Vector3().copy(A_t).add(offset);
+        }
+
+        // Crear la geometría de la superficie usando THREE.ParametricGeometry
+        var geometry = new THREE.ParametricGeometry((u, v, target) => {
+            var t = u * 8 * Math.PI;
+            var q = v * 8 * Math.PI;
+            var r = (1 + Math.cos(8 * t)) / 20;
+
+            target.set(X(8, 0.5, r, t, q).x, X(8, 0.5, r, t, q).y, X(8, 0.5, r, t, q).z);
+        }, 2300, 2300); 
+
+        // Crear el material y la malla
+        var material = new THREE.MeshNormalMaterial();
+        var mesh = new THREE.Mesh(geometry, material);
+
+        // Añadir la malla a la escena
+        scene.add(mesh);
+
+        // Configurar la cámara
+        camera.position.z = 5;
+
+        // Animar la escena
+        function animate() {
+            requestAnimationFrame(animate);
+            mesh.rotation.y += 0.01; // Rotación en el eje Y
+            mesh.rotation.z += 0.005; // Rotación en el eje Z
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
