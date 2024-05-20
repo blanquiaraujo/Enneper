@@ -1,0 +1,124 @@
+<!--
+prompt de ChatGPT de OpenAI para obtener este archivo
+
+User
+geometria diferencial dada la curva regular A[parama, paramb](t) = (parama*Cos[t], parama*Sin[t], paramb*t)
+calcula  la ecuación de la superficie X[parama, paramb][r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) 
+donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript 
+y representa la superficie X[parama, paramb][r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y  
+ Gráfica para paramaa=1, paramb=0.2 , radio del tubo=0.12
+ 
+
+-->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Superficie Paramétrica con Three.js</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script>
+        // Parámetros de la curva
+        const paramaa = 1;
+        const paramb = 0.2;
+        const radioTubo = 0.12;
+
+        // Definir la curva regular A(t)
+        function A(t) {
+            return new THREE.Vector3(
+                paramaa * Math.cos(t),
+                paramaa * Math.sin(t),
+                paramb * t
+            );
+        }
+
+        // Definir la primera derivada de la curva
+        function A_prime(t) {
+            return new THREE.Vector3(
+                -paramaa * Math.sin(t),
+                paramaa * Math.cos(t),
+                paramb
+            );
+        }
+
+        // Definir la segunda derivada de la curva
+        function A_double_prime(t) {
+            return new THREE.Vector3(
+                -paramaa * Math.cos(t),
+                -paramaa * Math.sin(t),
+                0
+            );
+        }
+
+        // Definir el vector normal principal N(t)
+        function N(t) {
+            const a_prime = A_prime(t);
+            const a_double_prime = A_double_prime(t);
+            const cross = new THREE.Vector3().crossVectors(a_prime, a_double_prime).normalize();
+            return new THREE.Vector3().crossVectors(cross, a_prime).normalize();
+        }
+
+        // Definir el vector binormal B(t)
+        function B(t) {
+            const a_prime = A_prime(t);
+            return new THREE.Vector3().crossVectors(a_prime, N(t)).normalize();
+        }
+
+        // Definir la superficie paramétrica X[r](t,q)
+        function X(t, q, r) {
+            const pointA = A(t);
+            const normal = N(t).multiplyScalar(Math.cos(q) * r);
+            const binormal = B(t).multiplyScalar(Math.sin(q) * r);
+            return pointA.add(normal).add(binormal);
+        }
+
+        // Configuración de la escena Three.js
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Parámetros de la superficie paramétrica
+        const tMin = -8 * Math.PI;
+        const tMax = 8 * Math.PI;
+        const qMin = -8 * Math.PI;
+        const qMax = 8 * Math.PI;
+        const r = radioTubo;
+
+        // Definir la geometría paramétrica
+        const geometry = new THREE.ParametricGeometry((u, v, target) => {
+            const t = tMin + (tMax - tMin) * u;
+            const q = qMin + (qMax - qMin) * v;
+            const pos = X(t, q, r);
+            target.set(pos.x, pos.y, pos.z);
+        }, 100, 100);
+
+        // Material y malla
+        const material = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        // Configuración de la cámara
+        camera.position.z = 50;
+
+        // Animación
+        function animate() {
+            requestAnimationFrame(animate);
+            mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>

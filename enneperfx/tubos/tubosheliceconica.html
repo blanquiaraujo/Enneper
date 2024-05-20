@@ -1,0 +1,128 @@
+<!--
+prompt paraChatGPT
+
+geometria diferencial dada la curva regular A[parama, paramc](t) = (parama*t*Sin[t]/(2*3.14159*paramc), parama*t*Cos[t]/(2*3.1415*paramc), t/(2*3.1415*paramc))
+calcula  la ecuación de la superficie X[parama, paramc][r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) 
+donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript 
+y representa la superficie X[parama, paramc][r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y  
+ Gráfica para parama=0.5, paramc=5 , radio del tubo=t/(2*3.1415*paramc)
+
+ prompt2
+
+ configura la  escena de three.js, agrega la malla, animalo rotando en los ejes Y y Z y dame el 
+resultado final en un solo bloque de codigo en un archivo html
+
+NOTA: añado un factor de escalado
+
+const scaleA = 25.0;
+
+y lo multiplico en la definiciion de la curva A(t) por este factor scale
+y en geometry
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Parametric Surface</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Parámetros
+        const scaleA = 25.0
+
+     
+        const parama = 0.5;
+        const paramc = 5;
+
+        // Rango de t y q
+        const tMin = -8 * Math.PI;
+        const tMax = 8 * Math.PI;
+        const qMin = -8 * Math.PI;
+        const qMax = 8 * Math.PI;
+
+        // Definición de la curva A(t)
+        function A(t) {
+            return new THREE.Vector3(
+                scaleA * (parama * t * Math.sin(t) / (2 * Math.PI * paramc)),
+                scaleA * (parama * t * Math.cos(t) / (2 * Math.PI * paramc)),
+                scaleA * (t / (2 * Math.PI * paramc))
+            );
+        }
+
+        // Cálculo del vector tangente T(t)
+        function T(t) {
+            return new THREE.Vector3(
+                parama * (Math.sin(t) + t * Math.cos(t)) / (2 * Math.PI * paramc),
+                parama * (Math.cos(t) - t * Math.sin(t)) / (2 * Math.PI * paramc),
+                1 / (2 * Math.PI * paramc)
+            ).normalize();
+        }
+
+        // Cálculo del vector normal N(t)
+        function N(t) {
+            const dTdt = new THREE.Vector3(
+                parama * (2 * Math.cos(t) - t * Math.sin(t)) / (2 * Math.PI * paramc),
+                parama * (-2 * Math.sin(t) - t * Math.cos(t)) / (2 * Math.PI * paramc),
+                0
+            );
+            return dTdt.normalize();
+        }
+
+        // Cálculo del vector binormal B(t)
+        function B(t) {
+            return T(t).clone().cross(N(t));
+        }
+
+        // Definición de la superficie X(t, q)
+        function X(t, q) {
+            const A_t = A(t);
+            const N_t = N(t);
+            const B_t = B(t);
+            const r = t / (2 * Math.PI * paramc);
+            return A_t.add(N_t.multiplyScalar(Math.cos(q) * r)).add(B_t.multiplyScalar(Math.sin(q) * r));
+        }
+
+        // Configuración de la escena
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Crear geometría paramétrica
+        const geometry = new THREE.ParametricGeometry((u, v, target) => {
+            const t = THREE.MathUtils.lerp(tMin, tMax, u);
+            const q = THREE.MathUtils.lerp(qMin, qMax, v);
+            const point = X(t, q);
+
+
+            target.set(point.x, point.y, point.z);
+        }, 400, 400);
+
+        const material = new THREE.MeshBasicMaterial({ color: 0x0077ff, wireframe: true });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        // Configuración de la cámara
+        camera.position.z = 50;
+
+        // Función de animación
+        function animate() {
+            requestAnimationFrame(animate);
+            mesh.rotation.y += 0.01;
+            mesh.rotation.z += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
