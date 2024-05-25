@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<!--
+
+prompt para chatgpt
+
+
+    geometria diferencial dada la curva regular 
+A[parama,paramb,paramc][2,3](t) = ((parama + paramb* Cos[3* t])*Cos[2* t], (parama + paramb* Cos[3* t])*Sin[2* t], paramc *Sin[3* t])
+
+calcula  la ecuación de la superficie X[parama, paramb, paramc][2,3][r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) 
+donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript 
+y representa la superficie X[r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y      Gráfica para parama=6, paramb=paramc=2, r=0.5
+
+
+-->
+
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superficie con Three.js</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Definir la función para la curva A(t)
+        function A(parama, paramb, paramc, t) {
+            var x = (parama + paramb * Math.cos(3 * t)) * Math.cos(2 * t);
+            var y = (parama + paramb * Math.cos(3 * t)) * Math.sin(2 * t);
+            var z = paramc * Math.sin(3 * t);
+            return new THREE.Vector3(x, y, z);
+        }
+
+        // Definir la función para el vector tangente T(t)
+        function Tangente(parama, paramb, paramc, t) {
+            var dx = -2 * (parama + paramb * Math.cos(3 * t)) * Math.sin(2 * t) + 2 * paramb * Math.cos(2 * t) * Math.cos(3 * t);
+            var dy = 2 * (parama + paramb * Math.cos(3 * t)) * Math.cos(2 * t) + 2 * paramb * Math.sin(2 * t) * Math.cos(3 * t);
+            var dz = 3 * paramc * Math.cos(3 * t);
+            return new THREE.Vector3(dx, dy, dz).normalize();
+        }
+
+        // Definir la función para el vector binormal B(t)
+        function Binormal(parama, paramb, paramc, t) {
+            var T = Tangente(parama, paramb, paramc, t);
+            var N = Normal(parama, paramb, paramc, t);
+            return new THREE.Vector3().crossVectors(T, N).normalize();
+        }
+
+        // Definir la función para el vector normal principal N(t)
+        function Normal(parama, paramb, paramc, t) {
+            var dx = -2 * (parama + paramb * Math.cos(3 * t)) * Math.sin(2 * t) + 2 * paramb * Math.cos(2 * t) * Math.cos(3 * t);
+            var dy = 2 * (parama + paramb * Math.cos(3 * t)) * Math.cos(2 * t) + 2 * paramb * Math.sin(2 * t) * Math.cos(3 * t);
+            var dz = 3 * paramc * Math.cos(3 * t);
+            return new THREE.Vector3(dx, dy, dz).normalize();
+        }
+
+        // Definir la función para la superficie X[r](t,q)
+        function Surface(parama, paramb, paramc, r, t, q) {
+            var A_t = A(parama, paramb, paramc, t);
+            var N_t = Normal(parama, paramb, paramc, t);
+            var B_t = Binormal(parama, paramb, paramc, t);
+            var offset = new THREE.Vector3().addVectors(
+                A_t,
+                new THREE.Vector3().addScaledVector(N_t, r * Math.cos(q)).addScaledVector(B_t, r * Math.sin(q))
+            );
+            return offset;
+        }
+
+        // Crear una escena
+        var scene = new THREE.Scene();
+
+        // Crear la geometría de Three.js para la superficie
+        var geometry = new THREE.ParametricGeometry(function (u, v, target) {
+            var t = u * 8 * Math.PI - 8 * Math.PI;
+            var q = v * 8 * Math.PI - 8 * Math.PI;
+            var point = Surface(6, 2, 2, 0.5, t, q);
+            target.set(point.x, point.y, point.z);
+        }, 100, 100);
+
+        // Crear el material y la malla
+        var material = new THREE.MeshNormalMaterial();
+        var mesh = new THREE.Mesh(geometry, material);
+
+        // Agregar la malla a la escena
+        scene.add(mesh);
+
+        // Crear el renderizador
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Función para renderizar la escena
+        function animate() {
+            requestAnimationFrame(animate);
+            mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+
+        // Iniciar la animación
+        animate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--
+prompt  para chatgpt
+
+geometria diferencial dada la curva regular  A(t) =  
+  (10*(Cos[t]+Cos[3*t])+Cos[2*t]+Cos[4*t],
+    6*Sin[t] + 10 * Sin[3 *t],
+    4*Sin[3*t]*Sin[5*t/2]+4*Sin[4*t]-2*Sin[6*t])
+calcula  la ecuación de la superficie X[r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) 
+donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript 
+y representa la superficie X[r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y   Gráfica para r=0.25
+
+
+
+-->
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Superficie Paramétrica con Three.js</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    function parametricSurface(u, v, target) {
+      let t = -2 * Math.PI + 4 * Math.PI * u;
+      let q = -2 * Math.PI + 4 * Math.PI * v;
+      let r = 0.25;
+      
+      // Definir la curva A(t)
+      let A = (t) => {
+        return new THREE.Vector3(
+          10 * (Math.cos(t) + Math.cos(3 * t)) + Math.cos(2 * t) + Math.cos(4 * t),
+          6 * Math.sin(t) + 10 * Math.sin(3 * t),
+          4 * Math.sin(3 * t) * Math.sin(5 * t / 2) + 4 * Math.sin(4 * t) - 2 * Math.sin(6 * t)
+        );
+      };
+
+      // Calcular la derivada de la curva A'(t)
+      let A_prime = (t) => {
+        return new THREE.Vector3(
+          -10 * (Math.sin(t) + 3 * Math.sin(3 * t)) - 2 * Math.sin(2 * t) - 4 * Math.sin(4 * t),
+          6 * Math.cos(t) + 30 * Math.cos(3 * t),
+          20 * Math.cos(3 * t) * Math.sin(5 * t / 2) + 10 * Math.cos(5 * t / 2) * Math.sin(3 * t) + 16 * Math.cos(4 * t) - 12 * Math.cos(6 * t)
+        );
+      };
+
+      // Calcular el vector tangente unitario T(t)
+      let T = (t) => {
+        let T_raw = A_prime(t);
+        return T_raw.normalize();
+      };
+
+      // Calcular la segunda derivada de la curva A''(t)
+      let A_double_prime = (t) => {
+        return new THREE.Vector3(
+          -10 * (Math.cos(t) + 9 * Math.cos(3 * t)) - 4 * Math.cos(2 * t) - 16 * Math.cos(4 * t),
+          -6 * Math.sin(t) - 90 * Math.sin(3 * t),
+          -50 * Math.sin(3 * t) * Math.sin(5 * t / 2) + 25 * Math.sin(5 * t / 2) * Math.cos(3 * t) - 64 * Math.sin(4 * t) + 72 * Math.sin(6 * t)
+        );
+      };
+
+      // Calcular la derivada del vector tangente T'(t)
+      let T_prime = (t) => {
+        return A_double_prime(t).sub(T(t).multiplyScalar(A_double_prime(t).dot(T(t)))).normalize();
+      };
+
+      // Calcular el vector normal principal N(t)
+      let N = (t) => {
+        return T_prime(t).normalize();
+      };
+
+      // Calcular el vector binormal B(t)
+      let B = (t) => {
+        return new THREE.Vector3().crossVectors(T(t), N(t)).normalize();
+      };
+
+      let At = A(t);
+      let Nt = N(t);
+      let Bt = B(t);
+      
+      // Calcular la superficie X[r](t, q)
+      let X = new THREE.Vector3().addVectors(
+        At,
+        new THREE.Vector3().addVectors(
+          Nt.multiplyScalar(Math.cos(q) * r),
+          Bt.multiplyScalar(Math.sin(q) * r)
+        )
+      );
+
+      target.set(X.x, X.y, X.z);
+    }
+
+    // Crear la escena, la cámara y el renderizador
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Crear la geometría paramétrica
+    const geometry = new THREE.ParametricGeometry(parametricSurface, 400, 400);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    // Posicionar la cámara y renderizar la escena
+    camera.position.z = 50;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      mesh.rotation.x += 0.01;
+      mesh.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

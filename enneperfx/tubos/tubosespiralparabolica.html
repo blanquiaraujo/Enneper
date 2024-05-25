@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- 
+
+prompt para chatgpt
+
+
+geometria diferencial dada la curva regular   A[parama,paramc](t) = (parama* Sin[t], parama * Cos[t], (t*t)/(2*3.14159*paramc))
+calcula  la ecuación de la superficie X[parama, paramc][r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) 
+donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript 
+y representa la superficie X[parama, paramc][r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y   Gráfica para parama=0.4, paramc=5,  r=0.25
+
+-->
+
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Superficie Paramétrica con Three.js</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const parama = 0.4;
+        const paramc = 5;
+        const r = 0.25;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        function curveA(t) {
+            return new THREE.Vector3(
+                parama * Math.sin(t),
+                parama * Math.cos(t),
+                (t * t) / (2 * 3.14159 * paramc)
+            );
+        }
+
+        function tangentT(t) {
+            return new THREE.Vector3(
+                parama * Math.cos(t),
+                -parama * Math.sin(t),
+                t / (3.14159 * paramc)
+            ).normalize();
+        }
+
+        function normalN(t) {
+            const T = tangentT(t);
+            const T_prime = new THREE.Vector3(
+                -parama * Math.sin(t),
+                -parama * Math.cos(t),
+                1 / (3.14159 * paramc)
+            );
+            return T_prime.normalize();
+        }
+
+        function binormalB(t) {
+            const T = tangentT(t);
+            const N = normalN(t);
+            return new THREE.Vector3().crossVectors(T, N).normalize();
+        }
+
+        function surfaceX(u, v, target) {
+            const t = -8 * 3.14159 + u * 16 * 3.14159;
+            const q = -8 * 3.141 + v * 16 * 3.141;
+            const A = curveA(t);
+            const N = normalN(t);
+            const B = binormalB(t);
+
+            const x = A.x + r * (Math.cos(q) * N.x + Math.sin(q) * B.x);
+            const y = A.y + r * (Math.cos(q) * N.y + Math.sin(q) * B.y);
+            const z = A.z + r * (Math.cos(q) * N.z + Math.sin(q) * B.z);
+
+            target.set(x, y, z);
+        }
+
+        const geometry = new THREE.ParametricGeometry(surfaceX, 100, 100);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            mesh.rotation.y += 0.01;
+            mesh.rotation.z += 0.01;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

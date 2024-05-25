@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--
+
+    geometria diferencial dada la curva regular A[parama,paramb,paramc][1,1](t) = ((parama + paramb * Cos[t])*Cos[t], (parama + paramb * Cos[t])*Sin[t], c * Sin[t])
+calcula  la ecuación de la superficie X[parama, paramb, paramc][1,1][r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) 
+donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript 
+y representa la superficie X[r](t,q) graficamente usando  THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y     Gráfica para a=6, b=c=2, r=0.5
+
+
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superficie Paramétrica</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/jsm/controls/OrbitControls.min.js"></script>
+
+    <script>
+        // Constants
+        const a = 6;
+        const b = 2;
+        const c = 2;
+        const r = 0.5;
+
+        function A(t) {
+            return new THREE.Vector3(
+                (a + b * Math.cos(t)) * Math.cos(t),
+                (a + b * Math.cos(t)) * Math.sin(t),
+                c * Math.sin(t)
+            );
+        }
+
+        function dA(t) {
+            return new THREE.Vector3(
+                -b * Math.sin(t) * Math.cos(t) + (a + b * Math.cos(t)) * -Math.sin(t),
+                -b * Math.sin(t) * Math.sin(t) + (a + b * Math.cos(t)) * Math.cos(t),
+                c * Math.cos(t)
+            );
+        }
+
+        function ddA(t) {
+            return new THREE.Vector3(
+                -b * (Math.cos(t) * Math.cos(t) - Math.sin(t) * Math.sin(t)) + (a + b * Math.cos(t)) * -Math.cos(t) + b * Math.sin(t) * Math.sin(t),
+                -b * (Math.sin(t) * Math.cos(t) + Math.sin(t) * Math.cos(t)) + (a + b * Math.cos(t)) * -Math.sin(t) + b * Math.cos(t) * Math.cos(t),
+                -c * Math.sin(t)
+            );
+        }
+
+        function normalize(vector) {
+            const length = vector.length();
+            return new THREE.Vector3(vector.x / length, vector.y / length, vector.z / length);
+        }
+
+        function T(t) {
+            return normalize(dA(t));
+        }
+
+        function N(t) {
+            return normalize(ddA(t));
+        }
+
+        function B(t) {
+            return new THREE.Vector3().crossVectors(T(t), N(t));
+        }
+
+        function surface(t, q, target) {
+            const At = A(t);
+            const Nt = N(t);
+            const Bt = B(t);
+
+            const x = At.x + r * (Math.cos(q) * Nt.x + Math.sin(q) * Bt.x);
+            const y = At.y + r * (Math.cos(q) * Nt.y + Math.sin(q) * Bt.y);
+            const z = At.z + r * (Math.cos(q) * Nt.z + Math.sin(q) * Bt.z);
+
+            target.set(x, y, z);
+        }
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const geometry = new THREE.ParametricGeometry(surface, 100, 100);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+       // const controls = new OrbitControls(camera, renderer.domElement);
+        camera.position.z = 20;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
