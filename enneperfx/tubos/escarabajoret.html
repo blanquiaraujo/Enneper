@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<!--
+    geometria diferencial sea C(t)=(f(t),g(t)) a esta curva se le aplica el operador 
+writhe[C](t) = (f(t),cos(t)*g(t),sin(t)*g(t)) ¿cual es la curva 
+A[para](t) resultado de aplicar el operador writhe a la curva  
+C[para,parb](u) = ((para*Cos[2*t] - parb*Cos[t])Cos[t],
+                   (para*Cos[2*t] - parb*Cos[t])*Sin[t])
+dada esta curva A[para,parb](t) calcula  la ecuación de la superficie 
+X[para,parb][r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) 
+donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript 
+y representa la superficie X[para,parb][r](t,q) graficamente usando  
+THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y  
+ Gráfica para para=1 parb = 0.5 r=0.1
+-->
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superficie Paramétrica</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <script>
+        const para = 1;
+        const parb = 0.5;
+        const r = 0.1;
+        const T = 8 * Math.PI;
+        const Q = 8 * Math.PI;
+
+        // Curva A[para,parb](t)
+        function A(t) {
+            let x = (para * Math.cos(2 * t) - parb * Math.cos(t)) * Math.cos(t);
+            let y = Math.cos(t) * ((para * Math.cos(2 * t) - parb * Math.cos(t)) * Math.sin(t));
+            let z = Math.sin(t) * ((para * Math.cos(2 * t) - parb * Math.cos(t)) * Math.sin(t));
+            return new THREE.Vector3(x, y, z);
+        }
+
+        // Calcular derivada numérica para T(t), N(t), B(t)
+        function calculateVectors(t) {
+            const delta = 0.0001;
+            const A1 = A(t);
+            const A2 = A(t + delta);
+            
+            const T = A2.clone().sub(A1).normalize();
+
+            const A3 = A(t + 2 * delta);
+            const T2 = A3.clone().sub(A2).normalize();
+
+            const N = T2.clone().sub(T).normalize();
+            const B = new THREE.Vector3().crossVectors(T, N).normalize();
+
+            return {T, N, B};
+        }
+
+        // Surface X[para,parb][r](t,q)
+        function surface(u, v, target) {
+            const t = -T + 2 * T * u;
+            const q = -Q + 2 * Q * v;
+
+            const {N, B} = calculateVectors(t);
+
+            const point = A(t);
+            const offset = new THREE.Vector3()
+                .addScaledVector(N, r * Math.cos(q))
+                .addScaledVector(B, r * Math.sin(q));
+            const finalPoint = point.add(offset);
+
+            target.set(finalPoint.x, finalPoint.y, finalPoint.z);
+        }
+
+        // Three.js setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const geometry = new THREE.ParametricGeometry(surface, 400, 400);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

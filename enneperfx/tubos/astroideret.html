@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+
+
+geometria diferencial sea C(t)=(f(t),g(t)) a esta curva se le aplica el operador 
+writhe[C](t) = (f(t),cos(t)*g(t),sin(t)*g(t)) ¿cual es la curva 
+A[para](t) resultado de aplicar el operador writhe a la curva  
+C[para](t) = (para*Cos[t]*cos(t)*cos(t),para*Sin[t]*sin(t)*sin(t)) 
+dada esta curva A[para](t) calcula  la ecuación de la superficie 
+X[para][r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) 
+donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript 
+y representa la superficie X[para][r](t,q) graficamente usando  
+THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y  
+ Gráfica para para=1 r=0.1
+
+-->
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parametric Surface with Three.js</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+    // Parametric surface function
+    function surfaceFunction(u, v, target) {
+      const para = 1; // Given value of para
+      const r = 0.1;  // Given value of r
+
+      const t = u * (8 * Math.PI) * 2 - (8 * Math.PI); // t in range (-8π, 8π)
+      const q = v * (8 * Math.PI) * 2 - (8 * Math.PI); // q in range (-8π, 8π)
+
+      // Define A_para(t)
+      const A_t = new THREE.Vector3(
+        para * Math.cos(t) * Math.cos(t) * Math.cos(t),
+        para * Math.cos(t) * Math.sin(t) * Math.sin(t) * Math.sin(t),
+        para * Math.sin(t) * Math.sin(t) * Math.sin(t) * Math.sin(t)
+      );
+
+      // Tangent vector T(t)
+      const dA_t = new THREE.Vector3(
+        -3 * para * Math.sin(t) * Math.cos(t) * Math.cos(t),
+        para * (Math.cos(t) * Math.cos(t) * Math.cos(t) - 3 * Math.sin(t) * Math.sin(t) * Math.sin(t) * Math.sin(t)),
+        4 * para * Math.cos(t) * Math.sin(t) * Math.sin(t) * Math.sin(t)
+      ).normalize();
+
+      // Normal vector N(t)
+      const ddA_t = new THREE.Vector3(
+        -3 * para * Math.cos(t) * Math.cos(t) * (2 - 3 * Math.sin(t) * Math.sin(t)),
+        para * (-4 * Math.sin(t) * Math.cos(t) * Math.cos(t) + 3 * Math.sin(t) * Math.sin(t) * Math.cos(t) * (2 - Math.sin(t) * Math.sin(t))),
+        para * (8 * Math.sin(t) * Math.sin(t) * Math.cos(t) - 3 * Math.sin(t) * Math.cos(t) * Math.cos(t) * Math.cos(t))
+      ).normalize();
+
+      // Binormal vector B(t)
+      const B_t = new THREE.Vector3().crossVectors(dA_t, ddA_t).normalize();
+
+      // Surface equation X_para_r(t, q)
+      const CosQ = Math.cos(q);
+      const SinQ = Math.sin(q);
+
+      const X = A_t.x + r * (CosQ * ddA_t.x + SinQ * B_t.x);
+      const Y = A_t.y + r * (CosQ * ddA_t.y + SinQ * B_t.y);
+      const Z = A_t.z + r * (CosQ * ddA_t.z + SinQ * B_t.z);
+
+      target.set(X, Y, Z);
+    }
+
+    // Initialize scene, camera, and renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Create parametric geometry
+    const geometry = new THREE.ParametricGeometry(surfaceFunction, 800, 800);
+    const material = new THREE.MeshBasicMaterial({ color: 0x0077ff, wireframe: true });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    camera.position.z = 20;
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+  
+    animate();
+  </script>
+</body>
+</html>

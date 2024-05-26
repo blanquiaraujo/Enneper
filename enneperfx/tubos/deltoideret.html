@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+geometria diferencial sea C(t)=(f(t),g(t)) a esta curva se le aplica el operador 
+writhe[C](t) = (f(t),cos(t)*g(t),sin(t)*g(t)) ¿cual es la curva 
+A[para](t) resultado de aplicar el operador writhe a la curva  
+C[para](t) = (2*para*Cos[t]*(1+Cos[t])-para,
+         2*para*Sin[t]*(1-Cos[t]))
+dada esta curva A[para](t) calcula  la ecuación de la superficie 
+X[para][r](t,q) = A(t) + r*(Cos[q] * N(t) + Sin[q] * B(t)) 
+donde N(t) es el vector normal principal y B(t) el vector binormal implementa el codigo javascript 
+y representa la superficie X[para][r](t,q) graficamente usando  
+THREE.ParametricGeometry((u, v, target)  
+de three.js  para t entre (-8*3.14159 , 8*3.14159) y  q entre (-8*3.141 , 8*3.141)  y  
+ Gráfica para para=1 r=0.1
+
+
+
+
+-->
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parametric Surface Visualization</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script>
+    // Definición de la curva A_para(t)
+    function A_para(t, para) {
+      const x = 2 * para * Math.cos(t) * (1 + Math.cos(t)) - para;
+      const y = 2 * para * Math.cos(t) * Math.sin(t) * (1 - Math.cos(t));
+      const z = 2 * para * Math.sin(t) * Math.sin(t) * (1 - Math.cos(t));
+      return new THREE.Vector3(x, y, z);
+    }
+
+    // Calcula la derivada de la curva
+    function dA_para(t, para) {
+      const dx = -2 * para * Math.sin(t) * (1 + Math.cos(t)) - 2 * para * Math.cos(t) * Math.sin(t);
+      const dy = 2 * para * Math.cos(t) * Math.cos(t) * (1 - Math.cos(t)) - 2 * para * Math.sin(t) * Math.sin(t) * (1 - Math.cos(t));
+      const dz = 2 * para * Math.cos(t) * Math.sin(t) * (1 - Math.cos(t)) + 2 * para * Math.sin(t) * Math.cos(t) * (1 - Math.cos(t));
+      return new THREE.Vector3(dx, dy, dz);
+    }
+
+    // Calcula el vector normal
+    function N(t, para) {
+      const T = dA_para(t, para).normalize();
+      const dT = dA_para(t + 0.01, para).sub(dA_para(t, para)).normalize();
+      return dT.sub(T.multiplyScalar(dT.dot(T))).normalize();
+    }
+
+    // Calcula el vector binormal
+    function B(t, para) {
+      const T = dA_para(t, para).normalize();
+      const N_t = N(t, para);
+      return new THREE.Vector3().crossVectors(T, N_t).normalize();
+    }
+
+    // Genera la superficie
+    function generateSurface(para, r) {
+      const parametricFunction = (u, v, target) => {
+        const t = u * 16 * Math.PI - 8 * Math.PI;
+        const q = v * 16 * Math.PI - 8 * Math.PI;
+        const A = A_para(t, para);
+        const N_t = N(t, para);
+        const B_t = B(t, para);
+        const X = A.clone().add(N_t.multiplyScalar(r * Math.cos(q))).add(B_t.multiplyScalar(r * Math.sin(q)));
+        target.set(X.x, X.y, X.z);
+      };
+
+      const geometry = new THREE.ParametricGeometry(parametricFunction, 500, 500);
+      const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+      const mesh = new THREE.Mesh(geometry, material);
+
+      return mesh;
+    }
+
+    // Configuración de la escena
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const para = 1;
+    const r = 0.1;
+    const surface = generateSurface(para, r);
+    scene.add(surface);
+
+    camera.position.z = 10;
+ 
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        } 
+    animate();
+  </script>
+</body>
+</html>
